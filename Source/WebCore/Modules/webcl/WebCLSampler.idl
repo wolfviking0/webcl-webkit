@@ -27,11 +27,13 @@
 typedef unsigned long CLenum;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] interface WebCLSampler {
-    [StrictTypeChecking, Custom, RaisesException] any getInfo(CLenum paramName);
+    [Custom] any getInfo(CLenum paramName);
 
 #if defined(LANGUAGE_JAVASCRIPT) && LANGUAGE_JAVASCRIPT
-    void release();
+    undefined release();
 #endif
 };

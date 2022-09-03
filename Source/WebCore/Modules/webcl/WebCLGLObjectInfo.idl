@@ -29,8 +29,9 @@ typedef unsigned long CLenum;
 typedef long CLint;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL&WEBGL,
-    ImplementationLacksVTable,
 ] interface WebCLGLObjectInfo {
     readonly attribute CLenum type;
     [CustomGetter] readonly attribute any glObject;

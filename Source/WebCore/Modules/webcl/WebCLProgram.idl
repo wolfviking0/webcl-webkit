@@ -28,21 +28,23 @@
 typedef unsigned long CLenum;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] interface WebCLProgram {
-    [StrictTypeChecking, Custom, RaisesException] any getInfo (CLenum name);
-    [StrictTypeChecking, Custom, RaisesException] any getBuildInfo(WebCLDevice device, CLenum name);
+    [Custom] any getInfo (CLenum name);
+    [Custom] any getBuildInfo(WebCLDevice device, CLenum name);
 
-    [StrictTypeChecking, RaisesException] WebCLKernel createKernel(DOMString kernelName);
+    WebCLKernel createKernel(DOMString kernelName);
 
-    [StrictTypeChecking, RaisesException] sequence<WebCLKernel> createKernelsInProgram();
+    sequence<WebCLKernel> createKernelsInProgram();
 
-    [StrictTypeChecking, RaisesException] void build(
+    undefined build(
         optional sequence<WebCLDevice>? devices = [],
         optional DOMString? options = null,
         optional WebCLCallback whenFinished = null);
 
 #if defined(LANGUAGE_JAVASCRIPT) && LANGUAGE_JAVASCRIPT
-    void release();
+    undefined release();
 #endif
 };

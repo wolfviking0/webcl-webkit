@@ -28,14 +28,15 @@ typedef unsigned long CLenum;
 typedef unsigned long long CLulong;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
-    Constructor,
 ] interface WebCLEvent {
-    [StrictTypeChecking, Custom, RaisesException] any getInfo(CLenum name);
-    [StrictTypeChecking, RaisesException] CLulong getProfilingInfo(CLenum name);
-    [StrictTypeChecking, RaisesException] void setCallback(CLenum commandExecCallbackType,  WebCLCallback notify);
+    [Custom] any getInfo(CLenum name);
+    CLulong getProfilingInfo(CLenum name);
+    undefined setCallback(CLenum commandExecCallbackType,  WebCLCallback notify);
 
 #if defined(LANGUAGE_JAVASCRIPT) && LANGUAGE_JAVASCRIPT
-    void release();
+    undefined release();
 #endif
 };

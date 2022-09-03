@@ -27,10 +27,12 @@
 typedef long CLint;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
-    ImplementationLacksVTable,
-    DoNotCheckConstants
-] exception WebCLException {
+    DoNotCheckConstants,
+    Exception,
+] interface WebCLException {
     readonly attribute CLint code;
     readonly attribute DOMString name;
     readonly attribute DOMString message;

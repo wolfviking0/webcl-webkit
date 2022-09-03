@@ -30,12 +30,14 @@ typedef unsigned long CLuint;
 
 // FIXME: Implement as a WebIDL dictionary type.
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] interface WebCLImageDescriptor {
     // FIXME: default value: 0x10B5, 0x10D2, 0, 0 and 0 respectively.
     readonly attribute CLenum channelOrder;
     readonly attribute CLenum channelType;
-    [EnforceRange] readonly attribute CLuint width;
-    [EnforceRange] readonly attribute CLuint height;
-    [EnforceRange] readonly attribute CLuint rowPitch;
+    readonly attribute CLuint width;
+    readonly attribute CLuint height;
+    readonly attribute CLuint rowPitch;
 };

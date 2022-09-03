@@ -28,20 +28,21 @@ typedef unsigned long CLenum;
 typedef unsigned long CLuint;
 
 [
-    UsePointersEvenForNonNullableObjectArguments,
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] interface WebCLKernel {
-    [StrictTypeChecking, Custom, RaisesException] any getInfo (CLenum name);
-    [StrictTypeChecking, Custom, RaisesException] any getWorkGroupInfo(optional WebCLDevice? device, CLenum name);
+    [Custom] any getInfo (CLenum name);
+    [Custom] any getWorkGroupInfo(optional WebCLDevice? device, CLenum name);
 
-    [StrictTypeChecking, RaisesException] WebCLKernelArgInfo getArgInfo(CLuint index);
+    WebCLKernelArgInfo getArgInfo(CLuint index);
 
-    [StrictTypeChecking, RaisesException] void setArg(CLuint index, WebCLImage value);
-    [StrictTypeChecking, RaisesException] void setArg(CLuint index, WebCLBuffer value);
-    [StrictTypeChecking, RaisesException] void setArg(CLuint index, WebCLSampler value);
-    [StrictTypeChecking, RaisesException] void setArg(CLuint index, ArrayBufferView value);
+    undefined setArg(CLuint index, WebCLImage value);
+    undefined setArg(CLuint index, WebCLBuffer value);
+    undefined setArg(CLuint index, WebCLSampler value);
+    undefined setArg(CLuint index, ArrayBufferView value);
 
 #if defined(LANGUAGE_JAVASCRIPT) && LANGUAGE_JAVASCRIPT
-    void release();
+    undefined release();
 #endif
 };

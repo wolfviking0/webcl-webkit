@@ -27,8 +27,9 @@
 
 // FIXME: Implement as a WebIDL dictionary type.
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
-    ImplementationLacksVTable,
 ] interface WebCLKernelArgInfo {
     readonly attribute DOMString name;
     readonly attribute DOMString typeName;

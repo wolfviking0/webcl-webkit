@@ -29,9 +29,10 @@ typedef unsigned long CLenum;
 typedef long CLint;
 
 [
-    NoInterfaceObject,
+    EnabledBySetting=WebCL,
+    Exposed=(Window),
+    LegacyNoInterfaceObject,
     Conditional=WEBCL,
-    UsePointersEvenForNonNullableObjectArguments,
     DoNotCheckConstants,
 ] interface WebCL {
     const CLint SUCCESS                                    = 0;
@@ -312,34 +313,34 @@ typedef long CLint;
     const CLenum PROFILING_COMMAND_START                    = 0x1282;
     const CLenum PROFILING_COMMAND_END                      = 0x1283;
 
-    [StrictTypeChecking, RaisesException] sequence<WebCLPlatform> getPlatforms();
+    sequence<WebCLPlatform> getPlatforms();
 
-    [StrictTypeChecking] sequence<DOMString> getSupportedExtensions();
-    [StrictTypeChecking] boolean enableExtension(DOMString extensionName);
+    sequence<DOMString> getSupportedExtensions();
+    boolean enableExtension(DOMString extensionName);
 
     // FIXME: We have to arrange the overloaded method declarations like below because it matters for
     // the IDL parser/code generator engine.
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebGLRenderingContext gl, sequence<WebCLDevice> devices);
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(sequence<WebCLDevice> devices);
+    WebCLContext createContext(WebGLRenderingContext gl, sequence<WebCLDevice> devices);
+    WebCLContext createContext(sequence<WebCLDevice> devices);
 
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebGLRenderingContext gl, WebCLDevice device);
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebCLDevice device);
+    WebCLContext createContext(WebGLRenderingContext gl, WebCLDevice device);
+    WebCLContext createContext(WebCLDevice device);
 
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebGLRenderingContext gl, WebCLPlatform platform, CLenum deviceType);
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebCLPlatform platform, CLenum deviceType);
+    WebCLContext createContext(WebGLRenderingContext gl, WebCLPlatform platform, CLenum deviceType);
+    WebCLContext createContext(WebCLPlatform platform, CLenum deviceType);
 
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebGLRenderingContext gl, WebCLPlatform platform);
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebCLPlatform platform);
+    WebCLContext createContext(WebGLRenderingContext gl, WebCLPlatform platform);
+    WebCLContext createContext(WebCLPlatform platform);
 
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebGLRenderingContext gl, CLenum deviceType);
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(WebGLRenderingContext gl);
+    WebCLContext createContext(WebGLRenderingContext gl, CLenum deviceType);
+    WebCLContext createContext(WebGLRenderingContext gl);
 
-    [StrictTypeChecking, RaisesException] WebCLContext createContext(CLenum deviceType);
-    [StrictTypeChecking, RaisesException] WebCLContext createContext();
+    WebCLContext createContext(CLenum deviceType);
+    WebCLContext createContext();
 
-    void releaseAll();
+    undefined releaseAll();
 
-    [StrictTypeChecking, RaisesException] void waitForEvents(sequence<WebCLEvent> events, optional WebCLCallback whenFinished = null);
+    undefined waitForEvents(sequence<WebCLEvent> events, optional WebCLCallback whenFinished = null);
 
 #if defined(ENABLE_WEBGL) && ENABLE_WEBGL
     // FIXME: All constants below have have to have [CustomGetter]

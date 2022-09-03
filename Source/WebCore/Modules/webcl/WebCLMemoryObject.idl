@@ -28,11 +28,13 @@
 typedef unsigned long CLenum;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] interface WebCLMemoryObject {
-    [StrictTypeChecking, Custom, RaisesException] any getInfo(CLenum name);
+    [Custom] any getInfo(CLenum name);
 
 #if defined(LANGUAGE_JAVASCRIPT) && LANGUAGE_JAVASCRIPT
-    void release();
+    undefined release();
 #endif
 };

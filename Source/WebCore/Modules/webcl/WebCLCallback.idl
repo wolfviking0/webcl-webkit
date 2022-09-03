@@ -26,6 +26,8 @@
  */
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] callback interface WebCLCallback {
     boolean handleEvent();

@@ -29,14 +29,16 @@ typedef long GLint;
 typedef unsigned long CLenum;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
     JSGenerateToJSObject,
-    JSGenerateToNativeObject
+    JSGenerateToNativeObject,
 ] interface WebCLImage : WebCLMemoryObject {
-    [StrictTypeChecking, RaisesException] WebCLImageDescriptor getInfo();
+    WebCLImageDescriptor getInfo();
 
 #if defined(ENABLE_WEBGL) && ENABLE_WEBGL
-    [StrictTypeChecking, RaisesException] GLint getGLTextureInfo (CLenum param);
-    [StrictTypeChecking, RaisesException] WebCLGLObjectInfo getGLObjectInfo();
+    GLint getGLTextureInfo (CLenum param);
+    WebCLGLObjectInfo getGLObjectInfo();
 #endif
 };

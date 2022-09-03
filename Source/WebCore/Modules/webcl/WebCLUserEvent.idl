@@ -28,8 +28,10 @@
 typedef long CLint;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
     JSGenerateToJSObject,
 ] interface WebCLUserEvent : WebCLEvent {
-   [StrictTypeChecking, RaisesException] void setStatus(CLint executionStatus);
+   undefined setStatus(CLint executionStatus);
 };

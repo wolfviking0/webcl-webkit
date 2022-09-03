@@ -28,9 +28,11 @@
 typedef unsigned long CLenum;
 
 [
+    EnabledBySetting=WebCL,
+    Exposed=(Window),    
     Conditional=WEBCL,
 ] interface WebCLDevice {
-    [StrictTypeChecking, Custom, RaisesException] any getInfo(CLenum name);
-    [StrictTypeChecking] sequence<DOMString> getSupportedExtensions();
-    [StrictTypeChecking] boolean enableExtension(DOMString extensionName);
+    [Custom] any getInfo(CLenum name);
+    sequence<DOMString> getSupportedExtensions();
+    boolean enableExtension(DOMString extensionName);
 };
