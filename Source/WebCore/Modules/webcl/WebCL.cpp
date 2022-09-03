@@ -141,10 +141,11 @@ void WebCL::threadStarterWebCL(void* data)
     }
 
     if (!isMainThread()) {
-        callOnMainThread(callbackProxyOnMainThread, data);
-        return;
-    }
-    callbackProxyOnMainThread(data);
+        callOnMainThread([data] {
+            callbackProxyOnMainThread(data);
+        });
+    } else
+        callbackProxyOnMainThread(data);
 }
 
 void WebCL::waitForEventsImpl(const Vector<RefPtr<WebCLEvent> >& webCLEvents, ExceptionObject& exception)
@@ -224,7 +225,7 @@ PassRefPtr<WebCLContext> WebCL::createContext(const Vector<RefPtr<WebCLDevice> >
 
 PassRefPtr<WebCLContext> WebCL::createContext(WebCLDevice* device, ExceptionObject& exception)
 {
-    Vector<RefPtr<WebCLDevice>, 1> devices;
+    Vector<RefPtr<WebCLDevice>> devices;
     devices.uncheckedAppend(device);
 
     return createContext(devices, exception);
@@ -286,7 +287,7 @@ PassRefPtr<WebCLContext> WebCL::createContext(WebGLRenderingContext* glContext, 
 
 PassRefPtr<WebCLContext> WebCL::createContext(WebGLRenderingContext* glContext, WebCLDevice* device, ExceptionObject& exception)
 {
-    Vector<RefPtr<WebCLDevice>, 1> devices;
+    Vector<RefPtr<WebCLDevice>> devices;
     devices.uncheckedAppend(device);
 
     return createContext(glContext, devices, exception);

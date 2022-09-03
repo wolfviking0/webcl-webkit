@@ -37,9 +37,9 @@ namespace WebCore {
 
 class WebCLGetInfo;
 
-JSValue JSWebCLDevice::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLDevice::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLDevice, WebCLDevice>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLDevice, WebCLDevice>(&exec, this);
 }
 
 } // namespace WebCore

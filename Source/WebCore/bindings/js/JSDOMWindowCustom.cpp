@@ -65,6 +65,10 @@
 #include <wtf/cocoa/RuntimeApplicationChecksCocoa.h>
 #endif
 
+#if ENABLE(WEBCL)
+#include "JSWebCL.h"
+#endif
+
 namespace WebCore {
 using namespace JSC;
 

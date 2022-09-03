@@ -41,7 +41,7 @@ class DOMWindowWebCLEnvironment: public Supplement<DOMWindow>, public DOMWindowP
 public:
     virtual ~DOMWindowWebCLEnvironment();
     static DOMWindowWebCLEnvironment* from(DOMWindow*);
-    static WebCL* webcl(DOMWindow*);
+    static WebCL* webcl(DOMWindow&);
     WebCL* webcl() const;
     explicit DOMWindowWebCLEnvironment(DOMWindow*);
 

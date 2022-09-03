@@ -39,18 +39,20 @@ namespace WebCore {
 class WebCLGetInfo;
 class WebCLKernel;
 
-JSValue JSWebCLKernel::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLKernel::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLKernel, WebCLKernel>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLKernel, WebCLKernel>(&exec, this);
 }
 
-JSValue JSWebCLKernel::getWorkGroupInfo(JSC::ExecState* exec)
+JSValue JSWebCLKernel::getWorkGroupInfo(JSC::ExecState& ex)
 {
+    JSC::ExecState* exec = &ex;
+    
     if (exec->argumentCount() != 2)
         return throwSyntaxError(exec);
 
     ExceptionCode ec = 0;
-    WebCLKernel& kernel = impl();
+    WebCLKernel& kernel = wrapped();
     WebCLDevice* device  = JSWebCLDevice::toWrapped(exec->argument(0));
     if (exec->hadException())
         return jsUndefined();

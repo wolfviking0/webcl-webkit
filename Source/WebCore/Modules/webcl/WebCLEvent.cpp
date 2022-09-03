@@ -173,7 +173,9 @@ void WebCLEvent::callbackProxy(CCEvent, CCint, void* userData)
     // Callbacks might get called from non-mainthread. When it happens,
     // dispatch it to the mainthread, so that it can call JS back safely.
     if (!isMainThread()) {
-        callOnMainThread(callbackProxyOnMainThread, userData);
+        callOnMainThread([userData] {
+            callbackProxyOnMainThread(userData);
+        });
         return;
     }
     callbackProxyOnMainThread(userData);
@@ -197,11 +199,11 @@ void WebCLEvent::setCallback(CCenum commandExecCallbackType, PassRefPtr<WebCLCal
         vector->append(std::make_pair(commandExecCallbackType, callback));
         return;
     }
-
-    OwnPtr<CallbackDataVector> vector = adoptPtr(new CallbackDataVector);
+    
+    std::unique_ptr<CallbackDataVector> vector;
     vector->append(std::make_pair(commandExecCallbackType, callback));
-    callbackRegisterQueue().set(this, vector.release());
-
+    callbackRegisterQueue().set(this, WTFMove(vector));
+    
     CCerror error = ComputeContext::SUCCESS;
     pfnEventNotify callbackProxyPtr = &callbackProxy;
     error = platformObject()->setEventCallback(commandExecCallbackType, callbackProxyPtr, this);

@@ -58,7 +58,7 @@ JSValue WebCLGetInfoMethodCustom(JSC::ExecState* exec, Custom* custom)
         return throwSyntaxError(exec);
 
     ExceptionCode ec = 0;
-    Impl& impl = custom->impl();
+    Impl& impl = custom->wrapped();
     if (exec->hadException())
         return jsUndefined();
     unsigned info  = exec->argument(0).toInt32(exec);

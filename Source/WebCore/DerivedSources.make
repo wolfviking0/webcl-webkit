@@ -1536,6 +1536,25 @@ JS_BINDING_IDLS := \
     $(WebCore)/xml/XSLTProcessor.idl \
     InternalSettingsGenerated.idl \
     CSSStyleDeclaration+PropertyNames.idl \
+    $(WebCore)/Modules/webcl/DOMWindowWebCLEnvironment.idl \
+    $(WebCore)/Modules/webcl/WebCL.idl \
+    $(WebCore)/Modules/webcl/WebCLBuffer.idl \
+    $(WebCore)/Modules/webcl/WebCLCallback.idl \
+    $(WebCore)/Modules/webcl/WebCLCommandQueue.idl \
+    $(WebCore)/Modules/webcl/WebCLContext.idl \
+    $(WebCore)/Modules/webcl/WebCLDevice.idl \
+    $(WebCore)/Modules/webcl/WebCLEvent.idl \
+    $(WebCore)/Modules/webcl/WebCLException.idl \
+    $(WebCore)/Modules/webcl/WebCLGLObjectInfo.idl \
+    $(WebCore)/Modules/webcl/WebCLImage.idl \
+    $(WebCore)/Modules/webcl/WebCLImageDescriptor.idl \
+    $(WebCore)/Modules/webcl/WebCLKernel.idl \
+    $(WebCore)/Modules/webcl/WebCLKernelArgInfo.idl \
+    $(WebCore)/Modules/webcl/WebCLMemoryObject.idl \
+    $(WebCore)/Modules/webcl/WebCLPlatform.idl \
+    $(WebCore)/Modules/webcl/WebCLProgram.idl \
+    $(WebCore)/Modules/webcl/WebCLSampler.idl \
+    $(WebCore)/Modules/webcl/WebCLUserEvent.idl \
 #
 
 # --------

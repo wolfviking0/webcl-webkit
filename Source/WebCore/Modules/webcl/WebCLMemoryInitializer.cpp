@@ -75,9 +75,9 @@ WebCLMemoryInitializer::WebCLMemoryInitializer(WebCLContext* context)
 
 WebCLMemoryInitializer::~WebCLMemoryInitializer()
 {
-    m_program.clear();
-    m_kernelChar.clear();
-    m_kernelChar16.clear();
+    m_program = nullptr;
+    m_kernelChar = nullptr;
+    m_kernelChar16 = nullptr;
 }
 
 void WebCLMemoryInitializer::ensureMemoryInitialization(WebCLMemoryObject* memoryObject, WebCLCommandQueue* commandQueue, ExceptionObject& exception)
@@ -109,7 +109,8 @@ void WebCLMemoryInitializer::ensureMemoryInitialization(WebCLMemoryObject* memor
         error = m_kernelChar16->setKernelArg(1, sizeof(unsigned), &count);
         RETURN_IF_ERROR(error);
 
-        Vector<size_t, 1> globalWorkSize;
+        Vector<size_t> globalWorkSize;
+        globalWorkSize.reserveCapacity(1);
         globalWorkSize.uncheckedAppend(count);
         Vector<size_t> globalWorkOffset;
         Vector<size_t> localWorkSize;
@@ -131,7 +132,8 @@ void WebCLMemoryInitializer::ensureMemoryInitialization(WebCLMemoryObject* memor
         error = m_kernelChar->setKernelArg(2, sizeof(unsigned), &totalSize);
         RETURN_IF_ERROR(error);
 
-        Vector<size_t, 1> globalWorkSize;
+        Vector<size_t> globalWorkSize;
+        globalWorkSize.reserveCapacity(1);
         globalWorkSize.uncheckedAppend(remainingBytes);
         Vector<size_t> globalWorkOffset;
         Vector<size_t> localWorkSize;

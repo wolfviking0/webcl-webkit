@@ -56,9 +56,9 @@ DOMWindowWebCLEnvironment* DOMWindowWebCLEnvironment::from(DOMWindow* window)
     return supplement;
 }
 
-WebCL* DOMWindowWebCLEnvironment::webcl(DOMWindow* window)
+WebCL* DOMWindowWebCLEnvironment::webcl(DOMWindow& window)
 {
-    return DOMWindowWebCLEnvironment::from(window)->webcl();
+    return DOMWindowWebCLEnvironment::from(&window)->webcl();
 }
 
 WebCL* DOMWindowWebCLEnvironment::webcl() const

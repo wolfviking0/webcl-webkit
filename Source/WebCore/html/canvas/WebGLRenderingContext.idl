@@ -40,6 +40,7 @@ typedef (ImageBitmap or ImageData or HTMLImageElement or HTMLCanvasElement) TexI
     GenerateIsReachable=ImplCanvasBase,
     JSCustomMarkFunction,
     JSGenerateToJSObject,
+    JSGenerateToNativeObject,
     DoNotCheckConstants,
     ExportMacro=WEBCORE_EXPORT,
     Exposed=(Window,Worker),

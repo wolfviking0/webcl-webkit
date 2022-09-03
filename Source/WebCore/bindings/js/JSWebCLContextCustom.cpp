@@ -44,9 +44,9 @@ namespace WebCore {
 
 class WebCLGetInfo;
 
-JSValue JSWebCLContext::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLContext::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLContext, WebCLContext>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLContext, WebCLContext>(&exec, this);
 }
 
 // JSDictionary helper functions
@@ -75,8 +75,10 @@ static inline void setRowPitch(WebCLImageDescriptor* descriptor, const unsigned&
     descriptor->setRowPitch(rowPitch);
 }
 
-JSValue JSWebCLContext::createImage(JSC::ExecState* exec)
+JSValue JSWebCLContext::createImage(JSC::ExecState& ex)
 {
+    JSC::ExecState* exec = &ex;
+    
     if (!(exec->argumentCount() == 2 || exec->argumentCount() == 3))
         return throwSyntaxError(exec);
 
@@ -88,16 +90,16 @@ JSValue JSWebCLContext::createImage(JSC::ExecState* exec)
     JSValue inputData = exec->argument(1);
     if (inputData.inherits(JSHTMLVideoElement::info())) {
         RefPtr<HTMLVideoElement> videoElement = JSHTMLVideoElement::toWrapped(exec->argument(1));
-        webCLImage = m_impl->createImage(flags, videoElement.get(), ec);
+        webCLImage = wrapped().createImage(flags, *videoElement.get(), ec);
     } else if (inputData.inherits(JSHTMLImageElement::info())) {
         RefPtr<HTMLImageElement> imageElement = JSHTMLImageElement::toWrapped(exec->argument(1));
-        webCLImage = m_impl->createImage(flags, imageElement.get(), ec);
+        webCLImage = wrapped().createImage(flags, *imageElement.get(), ec);
     } else if (inputData.inherits(JSHTMLCanvasElement::info())) {
         RefPtr<HTMLCanvasElement> canvasElement = JSHTMLCanvasElement::toWrapped(exec->argument(1));
-        webCLImage = m_impl->createImage(flags, canvasElement.get(), ec);
+        webCLImage = wrapped().createImage(flags, *canvasElement.get(), ec);
     } else if (inputData.inherits(JSImageData::info())) {
         RefPtr<ImageData> imageData = JSImageData::toWrapped(exec->argument(1));
-        webCLImage = m_impl->createImage(flags, imageData.get(), ec);
+        webCLImage = wrapped().createImage(flags, *imageData.get(), ec);
     } else {
         if (!inputData.isObject())
             return throwSyntaxError(exec);
@@ -128,7 +130,7 @@ JSValue JSWebCLContext::createImage(JSC::ExecState* exec)
             buffer = toArrayBufferView(exec->argument(2));
         }
 
-        webCLImage = m_impl->createImage(flags, webCLImageDescriptor.get(), buffer.get(), ec);
+        webCLImage = wrapped().createImage(flags, webCLImageDescriptor.get(), buffer.get(), ec);
     }
 
     if (ec) {

@@ -31,6 +31,7 @@ typedef long CLint;
 [
     NoInterfaceObject,
     Conditional=WEBCL,
+    UsePointersEvenForNonNullableObjectArguments,
     DoNotCheckConstants,
 ] interface WebCL {
     const CLint SUCCESS                                    = 0;
@@ -338,7 +339,7 @@ typedef long CLint;
 
     void releaseAll();
 
-    [StrictTypeChecking, RaisesException] void waitForEvents(sequence<WebCLEvent> events, [Default=Undefined] optional WebCLCallback whenFinished);
+    [StrictTypeChecking, RaisesException] void waitForEvents(sequence<WebCLEvent> events, optional WebCLCallback whenFinished = null);
 
 #if defined(ENABLE_WEBGL) && ENABLE_WEBGL
     // FIXME: All constants below have have to have [CustomGetter]

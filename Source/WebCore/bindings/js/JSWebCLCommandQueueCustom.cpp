@@ -37,9 +37,9 @@ namespace WebCore {
 
 class WebCLGetInfo;
 
-JSValue JSWebCLCommandQueue::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLCommandQueue::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLCommandQueue, WebCLCommandQueue>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLCommandQueue, WebCLCommandQueue>(&exec, this);
 }
 
 } // namespace WebCore

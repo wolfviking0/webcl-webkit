@@ -35,9 +35,9 @@
 
 namespace WebCore {
 
-JSValue JSWebCLMemoryObject::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLMemoryObject::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLMemoryObject, WebCLMemoryObject>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLMemoryObject, WebCLMemoryObject>(&exec, this);
 }
 
 } // namespace WebCore

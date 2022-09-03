@@ -28,6 +28,7 @@ typedef unsigned long CLenum;
 typedef unsigned long CLuint;
 
 [
+    UsePointersEvenForNonNullableObjectArguments,
     Conditional=WEBCL,
 ] interface WebCLKernel {
     [StrictTypeChecking, Custom, RaisesException] any getInfo (CLenum name);

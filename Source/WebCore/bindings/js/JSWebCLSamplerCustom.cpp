@@ -35,9 +35,9 @@
 
 namespace WebCore {
 
-JSValue JSWebCLSampler::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLSampler::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLSampler, WebCLSampler>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLSampler, WebCLSampler>(&exec, this);
 }
 
 } // namespace WebCore

@@ -72,7 +72,7 @@ private:
         ASSERT(m_callback);
         m_isProgramBuilt = true;
         m_callback->handleEvent();
-        m_callback = 0;
+        m_callback = nullptr;
     };
 
     RefPtr<WebCLCallback> m_callback;

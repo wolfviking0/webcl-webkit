@@ -36,18 +36,20 @@
 
 namespace WebCore {
 
-JSValue JSWebCLProgram::getInfo(JSC::ExecState* exec)
+JSValue JSWebCLProgram::getInfo(JSC::ExecState& exec)
 {
-    return WebCLGetInfoMethodCustom<JSWebCLProgram, WebCLProgram>(exec, this);
+    return WebCLGetInfoMethodCustom<JSWebCLProgram, WebCLProgram>(&exec, this);
 }
 
-JSValue JSWebCLProgram::getBuildInfo(JSC::ExecState* exec)
+JSValue JSWebCLProgram::getBuildInfo(JSC::ExecState& ex)
 {
+    JSC::ExecState* exec = &ex;
+    
     if (exec->argumentCount() != 2)
         return throwSyntaxError(exec);
 
     ExceptionCode ec = 0;
-    WebCLProgram& program = impl();
+    WebCLProgram& program = wrapped();
     WebCLDevice* device  = JSWebCLDevice::toWrapped(exec->argument(0));
     if (exec->hadException())
         return jsUndefined();

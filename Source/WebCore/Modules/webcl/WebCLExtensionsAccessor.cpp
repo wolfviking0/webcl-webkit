@@ -37,30 +37,30 @@ namespace WebCore {
 template <class T>
 inline bool WebCLExtensionsAccessor<T>::enableExtension(const String& name)
 {
-    if (equalIgnoringCase(name, "WEBCL_html_image")) {
+    if (equalIgnoringASCIICase(name, "webcl_html_image")) {
         m_enabledExtensions.add("WEBCL_html_image");
         return true;
     }
-    if (equalIgnoringCase(name, "WEBCL_html_video")) {
+    if (equalIgnoringASCIICase(name, "webcl_html_video")) {
         m_enabledExtensions.add("WEBCL_html_video");
         return true;
     }
-    if (equalIgnoringCase(name, "KHR_fp64")) {
+    if (equalIgnoringASCIICase(name, "khr_fp64")) {
         bool khrFP64 = m_accessor ? ComputeExtensions::get().supports("cl_khr_fp64", m_accessor)
             : ComputeExtensions::get().supports("cl_khr_fp64");
         if (khrFP64)
             m_enabledExtensions.add("KHR_fp64");
         return khrFP64;
     }
-    if (equalIgnoringCase(name, "KHR_fp16")) {
+    if (equalIgnoringASCIICase(name, "khr_fp16")) {
         bool khrFP16 = m_accessor ? ComputeExtensions::get().supports("cl_khr_fp16", m_accessor)
             : ComputeExtensions::get().supports("cl_khr_fp16");
         if (khrFP16)
             m_enabledExtensions.add("KHR_fp16");
         return khrFP16;
     }
-
-    if (equalIgnoringCase(name, "KHR_gl_sharing")) {
+    
+    if (equalIgnoringASCIICase(name, "khr_gl_sharing")) {
 #if ENABLE(WEBGL)
         bool khrGLSharing = m_accessor ? ComputeExtensions::get().supports("cl_khr_gl_sharing", m_accessor)
                                     : ComputeExtensions::get().supports("cl_khr_gl_sharing");
@@ -69,6 +69,7 @@ inline bool WebCLExtensionsAccessor<T>::enableExtension(const String& name)
         return khrGLSharing;
 #endif
     }
+
     return false;
 }
 

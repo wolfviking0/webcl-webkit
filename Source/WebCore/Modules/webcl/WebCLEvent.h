@@ -73,7 +73,7 @@ protected:
 
 private:
     typedef Vector<std::pair<CCint, RefPtr<WebCLCallback> > > CallbackDataVector;
-    typedef HashMap<RefPtr<WebCLEvent>, OwnPtr<CallbackDataVector> > WebCLEventCallbackRegisterQueue;
+    typedef HashMap<RefPtr<WebCLEvent>, std::unique_ptr<CallbackDataVector>> WebCLEventCallbackRegisterQueue;
 
     static void callbackProxy(CCEvent, CCint, void*);
     static void callbackProxyOnMainThread(void* userData);

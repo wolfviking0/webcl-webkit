@@ -76,7 +76,7 @@ public:
         if (isPlatformObjectNeutralized())
             return;
 
-        m_platformObject.clear();
+        m_platformObject = nullptr;
         m_isReleased = true;
     }
 

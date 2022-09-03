@@ -169,7 +169,7 @@ ImageBuffer* WebCLHTMLInterop::LRUImageBufferCache::imageBuffer(const IntSize& s
         return buf;
     }
 
-    std::unique_ptr<ImageBuffer> temp = ImageBuffer::create(size, 1);
+    std::unique_ptr<ImageBuffer> temp = ImageBuffer::create(size, Unaccelerated, 1);
     if (!temp)
         return nullptr;
     i = std::min(m_capacity - 1, i);

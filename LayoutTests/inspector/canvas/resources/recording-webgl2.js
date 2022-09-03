@@ -1,6 +1,7 @@
 if (window.internals) {
     window.internals.settings.setWebGLErrorsToConsoleEnabled(false);
     window.internals.settings.setWebGL2Enabled(true);
+    window.internals.settings.setWebCLEnabled(true);
 }
 
 // 2x2 red square

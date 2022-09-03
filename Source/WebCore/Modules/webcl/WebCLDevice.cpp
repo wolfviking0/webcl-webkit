@@ -86,7 +86,8 @@ WebCLGetInfo WebCLDevice::getInfo(CCenum infoType, ExceptionObject& exception)
         Vector<size_t> workItemSizes;
         err = platformObject()->getDeviceInfo(infoType, &workItemSizes);
         if (err == ComputeContext::SUCCESS) {
-            Vector<CCuint, 3> values;
+            Vector<CCuint> values;
+            values.reserveCapacity(3);
             for (size_t i = 0; i < workItemSizes.size(); ++i)
                 values.uncheckedAppend(workItemSizes[i]);
             return WebCLGetInfo(values);

@@ -729,10 +729,11 @@ void WebCLCommandQueue::threadStarterWebCL(void* data)
     // On the new Thread, wait for finishImpl() AKA OpenCL clFinish to complete.
     // And then call the callback method on the Main Thread.
     if (!isMainThread()) {
-        callOnMainThread(callbackProxyOnMainThread, commandQueue);
-        return;
-    }
-    callbackProxyOnMainThread(commandQueue);
+        callOnMainThread([commandQueue] {
+            callbackProxyOnMainThread(commandQueue);
+        });
+    } else
+        callbackProxyOnMainThread(commandQueue);
 }
 
 void WebCLCommandQueue::finishImpl(ExceptionObject& exception)
@@ -887,6 +888,7 @@ void WebCLCommandQueue::enqueueWriteImage(WebCLImage* image, CCbool blockingWrit
 void WebCLCommandQueue::enqueueWriteImage(WebCLImage* image, CCbool blockingWrite, HTMLVideoElement* srcVideo,
     const Vector<RefPtr<WebCLEvent> >& events, WebCLEvent* event, ExceptionObject& exception)
 {
+    
     if (!isExtensionEnabled(m_context.get(), "WEBCL_html_video")) {
         setExtensionsNotEnabledException(exception);
         return;
@@ -898,13 +900,15 @@ void WebCLCommandQueue::enqueueWriteImage(WebCLImage* image, CCbool blockingWrit
     if (willThrowException(exception))
         return;
 
-    Vector<CCuint, 2> origin;
+    Vector<CCuint> origin;
+    origin.reserveCapacity(2);
     origin.uncheckedAppend(0);
     origin.uncheckedAppend(0);
 
     // FIXME :: Assuming dimensions of image to be written as values for width and height.
     // Waiting for resolution of https://www.khronos.org/bugzilla/show_bug.cgi?id=1182
-    Vector<CCuint, 2> region;
+    Vector<CCuint> region;
+    region.reserveCapacity(2);
     region.uncheckedAppend(image->imageDescriptor()->width());
     region.uncheckedAppend(image->imageDescriptor()->height());
 
@@ -1148,7 +1152,7 @@ void WebCLCommandQueue::enqueueCopyBuffer(WebCLBuffer* sourceBuffer, WebCLBuffer
         sourceOffset, targetOffset, sizeInBytes, computeEvents, computeEvent);
     setExceptionFromComputeErrorCode(err, exception);
 }
-
+    
 void WebCLCommandQueue::enqueueCopyBufferRect(WebCLBuffer* sourceBuffer, WebCLBuffer* targetBuffer, const Vector<unsigned>& sourceOrigin,
     const Vector<unsigned>& targetOrigin, const Vector<unsigned>& region, CCuint sourceRowPitch, CCuint sourceSlicePitch, CCuint targetRowPitch,
     CCuint targetSlicePitch, const Vector<RefPtr<WebCLEvent> >& events, WebCLEvent* event, ExceptionObject& exception)
@@ -1246,7 +1250,7 @@ void WebCLCommandQueue::enqueueMarker(WebCLEvent* event, ExceptionObject& except
 
 bool WebCLCommandQueue::isExtensionEnabled(WebCLContext* context, const String& name) const
 {
-    if (equalIgnoringCase(name, "KHR_gl_sharing"))
+    if (equalIgnoringASCIICase(name, "KHR_gl_sharing"))
         return context->isGLCapableContext();
 
     return context->isExtensionEnabled(name);

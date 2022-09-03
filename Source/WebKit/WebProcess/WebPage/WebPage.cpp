@@ -4111,6 +4111,9 @@ static void adjustSettingsForCaptivePortal(Settings& settings, const WebPreferen
 #if ENABLE(WEBGL2)
     settings.setWebGL2Enabled(false);
 #endif
+#if ENABLE(WEBC2)
+    settings.setWebCLEnabled(false);
+#endif
 #if ENABLE(GAMEPAD)
     settings.setGamepadsEnabled(false);
 #endif

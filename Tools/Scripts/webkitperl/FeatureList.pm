@@ -183,6 +183,7 @@ my (
     $webdriverSupport,
     $webdriverTouchInteractionsSupport,
     $webdriverWheelInteractionsSupport,
+    $webclSupport,
     $webgl2Support,
     $webglSupport,
     $webXRSupport,
@@ -538,6 +539,9 @@ my @features = (
 
     { option => "webgl2", desc => "Toggle WebGL2 support",
       define => "ENABLE_WEBGL2", value => \$webgl2Support },
+  
+    { option => "webcl", desc => "Toggle WebCL support",
+      define => "ENABLE_WEBCL", value => \$webclSupport },
 
     { option => "webxr", desc => "Toggle WebXR support",
       define => "ENABLE_WEBXR", value => \$webXRSupport },

@@ -44,9 +44,10 @@ class WebGLBuffer;
 class WebGLRenderbuffer;
 class WebGLTexture;
 
-JSC::JSValue JSWebCLGLObjectInfo::glObject(JSC::ExecState* exec) const
+JSC::JSValue JSWebCLGLObjectInfo::glObject(JSC::ExecState& ex) const
 {
-    WebCLGLObjectInfo& info = impl();
+    JSC::ExecState* exec = &ex;
+    WebCLGLObjectInfo& info = wrapped();
 
     switch(info.type()) {
     case ComputeContext::GL_OBJECT_BUFFER:
@@ -61,9 +62,9 @@ JSC::JSValue JSWebCLGLObjectInfo::glObject(JSC::ExecState* exec) const
     return JSC::jsNull();
 }
 
-JSC::JSValue JSWebCLGLObjectInfo::textureTarget(JSC::ExecState*) const
+JSC::JSValue JSWebCLGLObjectInfo::textureTarget(JSC::ExecState&) const
 {
-    WebCLGLObjectInfo& info = impl();
+    WebCLGLObjectInfo& info = wrapped();
 
     if (info.type() == ComputeContext::GL_OBJECT_TEXTURE2D)
         return JSC::jsNumber(info.textureTarget());
@@ -71,9 +72,9 @@ JSC::JSValue JSWebCLGLObjectInfo::textureTarget(JSC::ExecState*) const
     return JSC::jsUndefined();
 }
 
-JSC::JSValue JSWebCLGLObjectInfo::mipmapLevel(JSC::ExecState*) const
+JSC::JSValue JSWebCLGLObjectInfo::mipmapLevel(JSC::ExecState&) const
 {
-    WebCLGLObjectInfo& info = impl();
+    WebCLGLObjectInfo& info = wrapped();
 
     if (info.type() == ComputeContext::GL_OBJECT_TEXTURE2D)
         return JSC::jsNumber(info.mipmapLevel());

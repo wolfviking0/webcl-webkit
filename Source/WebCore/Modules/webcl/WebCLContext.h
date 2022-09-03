@@ -91,19 +91,19 @@ public:
     Vector<RefPtr<WebCLImageDescriptor> > getSupportedImageFormats(CCenum memFlag, ExceptionObject&);
 
     PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlags, CCuint sizeInBytes, ArrayBufferView*, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, ImageData*, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLCanvasElement*, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLImageElement*, ExceptionObject&);
+    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, ImageData&, ExceptionObject&);
+    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLCanvasElement&, ExceptionObject&);
+    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLImageElement&, ExceptionObject&);
 
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, ImageData*, ExceptionObject&);
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLCanvasElement*, ExceptionObject&);
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLImageElement*, ExceptionObject&);
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLVideoElement*, ExceptionObject&);
+    PassRefPtr<WebCLImage> createImage(CCenum memFlag, ImageData&, ExceptionObject&);
+    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLCanvasElement&, ExceptionObject&);
+    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLImageElement&, ExceptionObject&);
+    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLVideoElement&, ExceptionObject&);
 
 #if ENABLE(WEBGL)
-    PassRefPtr<WebCLBuffer> createFromGLBuffer(CCenum, WebGLBuffer*, ExceptionObject&);
-    PassRefPtr<WebCLImage> createFromGLRenderbuffer(CCenum, WebGLRenderbuffer*, ExceptionObject&);
-    PassRefPtr<WebCLImage> createFromGLTexture(CCenum memoryFlags, CCenum textureTarget, GC3Dint miplevel, WebGLTexture*, ExceptionObject&);
+    PassRefPtr<WebCLBuffer> createFromGLBuffer(CCenum, WebGLBuffer&, ExceptionObject&);
+    PassRefPtr<WebCLImage> createFromGLRenderbuffer(CCenum, WebGLRenderbuffer&, ExceptionObject&);
+    PassRefPtr<WebCLImage> createFromGLTexture(CCenum memoryFlags, CCenum textureTarget, GC3Dint miplevel, WebGLTexture&, ExceptionObject&);
 #endif
 
     ComputeContext* computeContext() const { return platformObject(); }

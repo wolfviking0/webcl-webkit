@@ -190,7 +190,9 @@ void WebCLProgram::callbackProxy(CCProgram, void* userData)
     // Callbacks might get called from non-mainthread. When it happens,
     // dispatch it to the mainthread, so that it can call JS back safely.
     if (!isMainThread()) {
-        callOnMainThread(callbackProxyOnMainThread, userData);
+        callOnMainThread([userData] {
+            callbackProxyOnMainThread(userData);
+        });
         return;
     }
     callbackProxyOnMainThread(userData);

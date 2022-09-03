@@ -30,7 +30,7 @@ typedef unsigned long CLenum;
 [
     Conditional=WEBCL,
 ] interface WebCLPlatform {
-    [StrictTypeChecking, RaisesException] sequence<WebCLDevice> getDevices([Default=Undefined] optional CLenum deviceType);
+    [StrictTypeChecking, RaisesException] sequence<WebCLDevice> getDevices(optional CLenum deviceType = 0);
     [StrictTypeChecking, Custom, RaisesException] any getInfo (CLenum name);
     [StrictTypeChecking] sequence<DOMString> getSupportedExtensions();
     [StrictTypeChecking] boolean enableExtension(DOMString extensionName);
