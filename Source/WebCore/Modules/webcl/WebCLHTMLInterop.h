@@ -47,7 +47,7 @@ public:
     static void extractDataFromImageData(ImageData*, void*& hostPtr, size_t& pixelSize, ExceptionObject&);
     void extractDataFromVideo(HTMLVideoElement*, void*& hostPtr, size_t& videoSize, ExceptionObject&);
 private:
-    PassRefPtr<Image> videoFrameToImage(HTMLVideoElement*);
+    RefPtr<Image> videoFrameToImage(HTMLVideoElement*);
     // Fixed-size cache of reusable image buffers for extractDataFromVideo calls.
     class LRUImageBufferCache {
         public:

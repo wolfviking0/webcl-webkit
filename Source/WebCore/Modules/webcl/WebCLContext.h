@@ -73,37 +73,37 @@ class WebCLContext : public WebCLObjectImpl<ComputeContext> {
 public:
     virtual ~WebCLContext();
 
-    static PassRefPtr<WebCLContext> create(WebCL*, WebGLRenderingContext*, WebCLPlatform*, const Vector<RefPtr<WebCLDevice> >&, ExceptionObject&);
+    static RefPtr<WebCLContext> create(WebCL*, WebGLRenderingContext*, WebCLPlatform*, const Vector<RefPtr<WebCLDevice> >&, ExceptionObject&);
 
-    PassRefPtr<WebCLCommandQueue> createCommandQueue(WebCLDevice*, CCenum commandQueueProperty, ExceptionObject&);
+    RefPtr<WebCLCommandQueue> createCommandQueue(WebCLDevice*, CCenum commandQueueProperty, ExceptionObject&);
 
-    PassRefPtr<WebCLImage> createImage(CCenum flag, WebCLImageDescriptor*, ArrayBufferView*, ExceptionObject&);
+    RefPtr<WebCLImage> createImage(CCenum flag, WebCLImageDescriptor*, ArrayBufferView*, ExceptionObject&);
 
-    PassRefPtr<WebCLProgram> createProgram(const String& programSource, ExceptionObject&);
+    RefPtr<WebCLProgram> createProgram(const String& programSource, ExceptionObject&);
 
-    PassRefPtr<WebCLSampler> createSampler(CCbool normalizedCoords, CCenum addressingMode, CCenum filterMode, ExceptionObject&);
+    RefPtr<WebCLSampler> createSampler(CCbool normalizedCoords, CCenum addressingMode, CCenum filterMode, ExceptionObject&);
 
-    PassRefPtr<WebCLUserEvent> createUserEvent(ExceptionObject&);
+    RefPtr<WebCLUserEvent> createUserEvent(ExceptionObject&);
 
     WebCLGetInfo getInfo(CCenum flag, ExceptionObject&);
 
     Vector<RefPtr<WebCLImageDescriptor> > getSupportedImageFormats(ExceptionObject&);
     Vector<RefPtr<WebCLImageDescriptor> > getSupportedImageFormats(CCenum memFlag, ExceptionObject&);
 
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlags, CCuint sizeInBytes, ArrayBufferView*, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, ImageData&, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLCanvasElement&, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLImageElement&, ExceptionObject&);
+    RefPtr<WebCLBuffer> createBuffer(CCenum memFlags, CCuint sizeInBytes, ArrayBufferView*, ExceptionObject&);
+    RefPtr<WebCLBuffer> createBuffer(CCenum memFlag, ImageData&, ExceptionObject&);
+    RefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLCanvasElement&, ExceptionObject&);
+    RefPtr<WebCLBuffer> createBuffer(CCenum memFlag, HTMLImageElement&, ExceptionObject&);
 
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, ImageData&, ExceptionObject&);
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLCanvasElement&, ExceptionObject&);
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLImageElement&, ExceptionObject&);
-    PassRefPtr<WebCLImage> createImage(CCenum memFlag, HTMLVideoElement&, ExceptionObject&);
+    RefPtr<WebCLImage> createImage(CCenum memFlag, ImageData&, ExceptionObject&);
+    RefPtr<WebCLImage> createImage(CCenum memFlag, HTMLCanvasElement&, ExceptionObject&);
+    RefPtr<WebCLImage> createImage(CCenum memFlag, HTMLImageElement&, ExceptionObject&);
+    RefPtr<WebCLImage> createImage(CCenum memFlag, HTMLVideoElement&, ExceptionObject&);
 
 #if ENABLE(WEBGL)
-    PassRefPtr<WebCLBuffer> createFromGLBuffer(CCenum, WebGLBuffer&, ExceptionObject&);
-    PassRefPtr<WebCLImage> createFromGLRenderbuffer(CCenum, WebGLRenderbuffer&, ExceptionObject&);
-    PassRefPtr<WebCLImage> createFromGLTexture(CCenum memoryFlags, CCenum textureTarget, GC3Dint miplevel, WebGLTexture&, ExceptionObject&);
+    RefPtr<WebCLBuffer> createFromGLBuffer(CCenum, WebGLBuffer&, ExceptionObject&);
+    RefPtr<WebCLImage> createFromGLRenderbuffer(CCenum, WebGLRenderbuffer&, ExceptionObject&);
+    RefPtr<WebCLImage> createFromGLTexture(CCenum memoryFlags, CCenum textureTarget, GCGLint miplevel, WebGLTexture&, ExceptionObject&);
 #endif
 
     ComputeContext* computeContext() const { return platformObject(); }
@@ -124,14 +124,14 @@ public:
     {
         return m_HTMLInteropObject;
     }
-    bool supportsWidthHeight(CCuint width, CCuint height, PassRefPtr<WebCLDevice>) const;
+    bool supportsWidthHeight(CCuint width, CCuint height, RefPtr<WebCLDevice>) const;
 
 private:
     typedef HashMap<WebCLDevice*, std::pair<CCuint, CCuint> > MaximumImageWidthAndHeightForDeviceMap;
-    WebCLContext(WebCL*, PassRefPtr<ComputeContext>, const Vector<RefPtr<WebCLDevice> >&, WebGLRenderingContext*, HashSet<String>&, MaximumImageWidthAndHeightForDeviceMap&);
+    WebCLContext(WebCL*, RefPtr<ComputeContext>, const Vector<RefPtr<WebCLDevice> >&, WebGLRenderingContext*, HashSet<String>&, MaximumImageWidthAndHeightForDeviceMap&);
 
-    PassRefPtr<WebCLImage> createImage2DBase(CCenum flags, CCuint width, CCuint height, CCuint rowPitch, CCuint channelOrder, CCuint channelType, void*, ExceptionObject&);
-    PassRefPtr<WebCLBuffer> createBufferBase(CCenum memoryFlags, CCuint size, void* data, ExceptionObject&);
+    RefPtr<WebCLImage> createImage2DBase(CCenum flags, CCuint width, CCuint height, CCuint rowPitch, CCuint channelOrder, CCuint channelType, void*, ExceptionObject&);
+    RefPtr<WebCLBuffer> createBufferBase(CCenum memoryFlags, CCuint size, void* data, ExceptionObject&);
 
     bool isExtensionEnabled(const String& name) const;
     bool supportsWidthHeight(CCuint width, CCuint height) const;

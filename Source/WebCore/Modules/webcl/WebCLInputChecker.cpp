@@ -228,13 +228,13 @@ bool isValidGLTextureInfo(unsigned long value)
 bool isValidGLTextureTarget(GLenum value)
 {
     switch (value) {
-    case GraphicsContext3D::TEXTURE_2D:
-    case GraphicsContext3D::TEXTURE_CUBE_MAP_POSITIVE_X:
-    case GraphicsContext3D::TEXTURE_CUBE_MAP_POSITIVE_Y:
-    case GraphicsContext3D::TEXTURE_CUBE_MAP_POSITIVE_Z:
-    case GraphicsContext3D::TEXTURE_CUBE_MAP_NEGATIVE_X:
-    case GraphicsContext3D::TEXTURE_CUBE_MAP_NEGATIVE_Y:
-    case GraphicsContext3D::TEXTURE_CUBE_MAP_NEGATIVE_Z:
+    case GraphicsContextGL::TEXTURE_2D:
+    case GraphicsContextGL::TEXTURE_CUBE_MAP_POSITIVE_X:
+    case GraphicsContextGL::TEXTURE_CUBE_MAP_POSITIVE_Y:
+    case GraphicsContextGL::TEXTURE_CUBE_MAP_POSITIVE_Z:
+    case GraphicsContextGL::TEXTURE_CUBE_MAP_NEGATIVE_X:
+    case GraphicsContextGL::TEXTURE_CUBE_MAP_NEGATIVE_Y:
+    case GraphicsContextGL::TEXTURE_CUBE_MAP_NEGATIVE_Z:
         return true;
     }
     return false;

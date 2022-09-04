@@ -46,14 +46,14 @@ class WebCLKernel;
 class WebCLProgram : public WebCLObjectImpl<ComputeProgram> {
 public:
     virtual ~WebCLProgram();
-    static PassRefPtr<WebCLProgram> create(WebCLContext*, const String& programSource, ExceptionObject&);
+    static RefPtr<WebCLProgram> create(WebCLContext*, const String& programSource, ExceptionObject&);
 
     WebCLGetInfo getInfo(CCenum flag, ExceptionObject&);
     WebCLGetInfo getBuildInfo(WebCLDevice*, CCenum flag, ExceptionObject&);
 
-    void build(const Vector<RefPtr<WebCLDevice> >&, const String& buildOptions, PassRefPtr<WebCLCallback>, ExceptionObject&);
+    void build(const Vector<RefPtr<WebCLDevice> >&, const String& buildOptions, RefPtr<WebCLCallback>, ExceptionObject&);
 
-    PassRefPtr<WebCLKernel> createKernel(const String& kernelName, ExceptionObject&);
+    RefPtr<WebCLKernel> createKernel(const String& kernelName, ExceptionObject&);
     Vector<RefPtr<WebCLKernel> > createKernelsInProgram(ExceptionObject&);
 
     ComputeProgram* computeProgram() const { return platformObject(); }
@@ -62,7 +62,7 @@ public:
     static bool isExtensionEnabled(WebCLContext*, const String& name);
 
 private:
-    WebCLProgram(WebCLContext*, PassRefPtr<ComputeProgram>, const String&);
+    WebCLProgram(WebCLContext*, RefPtr<ComputeProgram>, const String&);
     void ccDeviceListFromWebCLDeviceList(const Vector<RefPtr<WebCLDevice> >&, Vector<ComputeDevice*>&, ExceptionObject&);
 
     static void callbackProxyOnMainThread(void* userData);

@@ -43,8 +43,8 @@ class ComputeSampler;
 
 class ComputeKernel : public RefCounted<ComputeKernel> {
 public:
-    static PassRefPtr<ComputeKernel> create(ComputeProgram*, const String& kernelName, CCerror&);
-    static PassRefPtr<ComputeKernel> create(CCKernel);
+    static RefPtr<ComputeKernel> create(ComputeProgram*, const String& kernelName, CCerror&);
+    static RefPtr<ComputeKernel> create(CCKernel);
 
     ~ComputeKernel();
 

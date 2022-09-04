@@ -39,7 +39,7 @@ class ComputeContext;
 
 class ComputeSampler : public RefCounted<ComputeSampler> {
 public:
-    static PassRefPtr<ComputeSampler> create(ComputeContext*, CCbool normalizedCoords, CCAddressingMode, CCFilterMode, CCerror&);
+    static RefPtr<ComputeSampler> create(ComputeContext*, CCbool normalizedCoords, CCAddressingMode, CCFilterMode, CCerror&);
 
     ~ComputeSampler();
 

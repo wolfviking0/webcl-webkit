@@ -87,7 +87,7 @@ public:
     }
 
 protected:
-    WebCLObjectImpl(PassRefPtr<T> object)
+    WebCLObjectImpl(RefPtr<T> object)
         : m_platformObject(object)
         , m_isReleased(false)
     {

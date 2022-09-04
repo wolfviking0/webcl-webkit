@@ -39,8 +39,8 @@ class ComputeContext;
 
 class ComputeEvent : public RefCounted<ComputeEvent> {
 public:
-    static PassRefPtr<ComputeEvent> create();
-    static PassRefPtr<ComputeEvent> create(ComputeContext*, CCerror&);
+    static RefPtr<ComputeEvent> create();
+    static RefPtr<ComputeEvent> create(ComputeContext*, CCerror&);
 
     ~ComputeEvent();
 

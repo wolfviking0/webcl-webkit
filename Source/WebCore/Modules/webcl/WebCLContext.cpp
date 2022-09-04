@@ -71,7 +71,7 @@ static inline void getEnabledExtensions(WebCL* webCL, WebCLPlatform* platform, c
         devices[i]->getEnabledExtensions(enabledExtensions);
 }
 
-PassRefPtr<WebCLContext> WebCLContext::create(WebCL* webCL, WebGLRenderingContext* glContext, WebCLPlatform* platform, const Vector<RefPtr<WebCLDevice> >& devices, ExceptionObject& exception)
+RefPtr<WebCLContext> WebCLContext::create(WebCL* webCL, WebGLRenderingContext* glContext, WebCLPlatform* platform, const Vector<RefPtr<WebCLDevice> >& devices, ExceptionObject& exception)
 {
     // Check all the enabled extensions and cache it to avoid enabling after context creation.
     HashSet<String> enabledExtensions;
@@ -114,9 +114,9 @@ PassRefPtr<WebCLContext> WebCLContext::create(WebCL* webCL, WebGLRenderingContex
     }
 
     ComputePlatform* computePlatform = platform ? platform->platformObject() : 0;
-    GraphicsContext3D* graphicsContext3D = glContext ? glContext->graphicsContext3D() : 0;
+    GraphicsContextGL* graphicsContext3D = glContext ? glContext->graphicsContext3D() : 0;
 
-    PassRefPtr<ComputeContext> computeContext = ComputeContext::create(ccDevices, computePlatform, graphicsContext3D, error);
+    RefPtr<ComputeContext> computeContext = ComputeContext::create(ccDevices, computePlatform, graphicsContext3D, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -126,7 +126,7 @@ PassRefPtr<WebCLContext> WebCLContext::create(WebCL* webCL, WebGLRenderingContex
     return context.release();
 }
 
-WebCLContext::WebCLContext(WebCL* webCL, PassRefPtr<ComputeContext> computeContext, const Vector<RefPtr<WebCLDevice> >& devices, WebGLRenderingContext* glContext, HashSet<String>& enabledExtensions, MaximumImageWidthAndHeightForDeviceMap& contextDeviceMaxValues)
+WebCLContext::WebCLContext(WebCL* webCL, RefPtr<ComputeContext> computeContext, const Vector<RefPtr<WebCLDevice> >& devices, WebGLRenderingContext* glContext, HashSet<String>& enabledExtensions, MaximumImageWidthAndHeightForDeviceMap& contextDeviceMaxValues)
     : WebCLObjectImpl(computeContext)
     , m_webCL(webCL)
     , m_devices(devices)
@@ -165,7 +165,7 @@ bool WebCLContext::isExtensionEnabled(const String& name) const
     return m_enabledExtensions.contains(name);
 }
 
-PassRefPtr<WebCLCommandQueue> WebCLContext::createCommandQueue(WebCLDevice* device, CCenum properties, ExceptionObject& exception)
+RefPtr<WebCLCommandQueue> WebCLContext::createCommandQueue(WebCLDevice* device, CCenum properties, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_CONTEXT, exception);
@@ -215,7 +215,7 @@ PassRefPtr<WebCLCommandQueue> WebCLContext::createCommandQueue(WebCLDevice* devi
     return queue.release();
 }
 
-PassRefPtr<WebCLProgram> WebCLContext::createProgram(const String& programSource, ExceptionObject& exception)
+RefPtr<WebCLProgram> WebCLContext::createProgram(const String& programSource, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_CONTEXT, exception);
@@ -246,7 +246,7 @@ void WebCLContext::postCreateBuffer(WebCLBuffer* buffer, ExceptionObject& except
     m_memoryInitializer.bufferCreated(buffer, exception);
 }
 
-PassRefPtr<WebCLBuffer> WebCLContext::createBufferBase(CCenum memoryFlags, CCuint size, void* hostPtr, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLContext::createBufferBase(CCenum memoryFlags, CCuint size, void* hostPtr, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_CONTEXT, exception);
@@ -270,7 +270,7 @@ PassRefPtr<WebCLBuffer> WebCLContext::createBufferBase(CCenum memoryFlags, CCuin
     return buffer.release();
 }
 
-PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, CCuint size, ArrayBufferView* hostPtr, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, CCuint size, ArrayBufferView* hostPtr, ExceptionObject& exception)
 {
     RefPtr<ArrayBuffer> buffer;
     if (hostPtr) {
@@ -289,7 +289,7 @@ PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, CCuint si
     return createBufferBase(memoryFlags, size, buffer ? buffer->data() : 0, exception);
 }
 
-PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, ImageData& srcPixelsRef, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, ImageData& srcPixelsRef, ExceptionObject& exception)
 {
     ImageData* srcPixels = &srcPixelsRef;
     
@@ -307,7 +307,7 @@ PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, ImageData
     return createBufferBase(memoryFlags, pixelSize, hostPtr, exception);
 }
 
-PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, HTMLCanvasElement& srcCanvasRef, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, HTMLCanvasElement& srcCanvasRef, ExceptionObject& exception)
 {
     HTMLCanvasElement* srcCanvas = &srcCanvasRef;
     
@@ -324,7 +324,7 @@ PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, HTMLCanva
     return createBufferBase(memoryFlags, canvasSize, hostPtr, exception);
 }
 
-PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, HTMLImageElement& srcImageRef, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, HTMLImageElement& srcImageRef, ExceptionObject& exception)
 {
     HTMLImageElement* srcImage = &srcImageRef;
     
@@ -341,7 +341,7 @@ PassRefPtr<WebCLBuffer> WebCLContext::createBuffer(CCenum memoryFlags, HTMLImage
     return createBufferBase(memoryFlags, bufferSize, hostPtr, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createImage2DBase(CCenum flags, CCuint width, CCuint height, CCuint rowPitch, CCuint channelOrder,
+RefPtr<WebCLImage> WebCLContext::createImage2DBase(CCenum flags, CCuint width, CCuint height, CCuint rowPitch, CCuint channelOrder,
     CCuint channelType, void* data, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
@@ -371,7 +371,7 @@ PassRefPtr<WebCLImage> WebCLContext::createImage2DBase(CCenum flags, CCuint widt
     return WebCLImage::create(this, flags, imageDescriptor.release(), data, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLCanvasElement& srcCanvasRef, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLCanvasElement& srcCanvasRef, ExceptionObject& exception)
 {
     HTMLCanvasElement* srcCanvas = &srcCanvasRef;
     
@@ -390,7 +390,7 @@ PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLCanvasElement
     return createImage2DBase(flags, width, height, 0 /* rowPitch */, ComputeContext::RGBA, ComputeContext::UNORM_INT8, hostPtr, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLImageElement& srcImageRef, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLImageElement& srcImageRef, ExceptionObject& exception)
 {
     HTMLImageElement* srcImage = &srcImageRef;
     
@@ -410,7 +410,7 @@ PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLImageElement&
     return createImage2DBase(flags, width, height, 0 /* rowPitch */, ComputeContext::RGBA, ComputeContext::UNORM_INT8, hostPtr, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLVideoElement& videoRef, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLVideoElement& videoRef, ExceptionObject& exception)
 {
     HTMLVideoElement* video = &videoRef;
     
@@ -435,7 +435,7 @@ PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, HTMLVideoElement&
     return createImage2DBase(flags, width, height, 0 /* rowPitch */, ComputeContext::RGBA, ComputeContext::UNORM_INT8, hostPtr, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, ImageData& srcPixelsRef, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, ImageData& srcPixelsRef, ExceptionObject& exception)
 {
     ImageData* srcPixels = &srcPixelsRef;
     
@@ -508,7 +508,7 @@ unsigned WebCLContext::bytesPerChannelType(CCenum channelType)
     return 0;
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, WebCLImageDescriptor* descriptor, ArrayBufferView* hostPtr, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, WebCLImageDescriptor* descriptor, ArrayBufferView* hostPtr, ExceptionObject& exception)
 {
     if (!descriptor) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_IMAGE_FORMAT_DESCRIPTOR, exception);
@@ -553,7 +553,7 @@ PassRefPtr<WebCLImage> WebCLContext::createImage(CCenum flags, WebCLImageDescrip
     return createImage2DBase(flags, width, height, rowPitch, channelOrder, channelType, buffer->data(), exception);
 }
 
-PassRefPtr<WebCLSampler> WebCLContext::createSampler(CCbool normCoords, CCenum addressingMode, CCenum filterMode, ExceptionObject& exception)
+RefPtr<WebCLSampler> WebCLContext::createSampler(CCbool normCoords, CCenum addressingMode, CCenum filterMode, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_CONTEXT, exception);
@@ -578,7 +578,7 @@ PassRefPtr<WebCLSampler> WebCLContext::createSampler(CCbool normCoords, CCenum a
     return WebCLSampler::create(this, normCoords, addressingMode, filterMode, exception);
 }
 
-PassRefPtr<WebCLUserEvent> WebCLContext::createUserEvent(ExceptionObject& exception)
+RefPtr<WebCLUserEvent> WebCLContext::createUserEvent(ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_CONTEXT, exception);
@@ -659,7 +659,7 @@ void WebCLContext::releaseAll()
 }
 
 // Public method to be used in enqueue* API's.
-bool WebCLContext::supportsWidthHeight(CCuint width, CCuint height, PassRefPtr<WebCLDevice> device) const
+bool WebCLContext::supportsWidthHeight(CCuint width, CCuint height, RefPtr<WebCLDevice> device) const
 {
     return (width <= m_contextDeviceMaxValues.get(device.get()).first)
         && (height <= m_contextDeviceMaxValues.get(device.get()).second);
@@ -676,7 +676,7 @@ bool WebCLContext::supportsWidthHeight(CCuint width, CCuint height) const
 }
 
 #if ENABLE(WEBGL)
-PassRefPtr<WebCLBuffer> WebCLContext::createFromGLBuffer(CCenum flags, WebGLBuffer& webGLBufferRef, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLContext::createFromGLBuffer(CCenum flags, WebGLBuffer& webGLBufferRef, ExceptionObject& exception)
 {
     WebGLBuffer* webGLBuffer = &webGLBufferRef;
     
@@ -703,7 +703,7 @@ PassRefPtr<WebCLBuffer> WebCLContext::createFromGLBuffer(CCenum flags, WebGLBuff
     return WebCLBuffer::create(this, flags, webGLBuffer, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createFromGLRenderbuffer(CCenum flags, WebGLRenderbuffer& renderbufferRef, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createFromGLRenderbuffer(CCenum flags, WebGLRenderbuffer& renderbufferRef, ExceptionObject& exception)
 {
     WebGLRenderbuffer* renderbuffer = &renderbufferRef;
     
@@ -730,7 +730,7 @@ PassRefPtr<WebCLImage> WebCLContext::createFromGLRenderbuffer(CCenum flags, WebG
     return WebCLImage::create(this, flags, renderbuffer, exception);
 }
 
-PassRefPtr<WebCLImage> WebCLContext::createFromGLTexture(CCenum flags, CCenum textureTarget, GC3Dint miplevel, WebGLTexture& textureRef, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLContext::createFromGLTexture(CCenum flags, CCenum textureTarget, GCGLint miplevel, WebGLTexture& textureRef, ExceptionObject& exception)
 {
     WebGLTexture* texture = &textureRef;
     

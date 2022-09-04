@@ -32,7 +32,7 @@
 
 #include "ComputeTypes.h"
 #include "ComputeContext.h"
-#include <wtf/PassRefPtr.h>
+#include <wtf/Ref.h>
 #include <wtf/RefCounted.h>
 
 namespace WebCore {
@@ -42,9 +42,9 @@ class WebCLImageDescriptor : public RefCounted<WebCLImageDescriptor>
 public:
     virtual ~WebCLImageDescriptor();
 
-    static PassRefPtr<WebCLImageDescriptor> create(CCuint width = 0, CCuint height = 0, CCuint rowPitch = 0,
+    static RefPtr<WebCLImageDescriptor> create(CCuint width = 0, CCuint height = 0, CCuint rowPitch = 0,
         CCuint channelOrder = ComputeContext::RGBA, CCuint channelType = ComputeContext::UNORM_INT8);
-    static PassRefPtr<WebCLImageDescriptor> create(const CCImageFormat&);
+    static RefPtr<WebCLImageDescriptor> create(const CCImageFormat&);
 
     void setChannelOrder(CCenum);
     CCenum channelOrder() const;

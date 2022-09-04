@@ -43,10 +43,10 @@ WebCLImage::~WebCLImage()
 {
 }
 
-PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, PassRefPtr<WebCLImageDescriptor> imageDescriptor, void* data, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, RefPtr<WebCLImageDescriptor> imageDescriptor, void* data, ExceptionObject& exception)
 {
     CCerror error;
-    PassRefPtr<ComputeMemoryObject> memoryObject = context->computeContext()->createImage2D(flags, imageDescriptor->width(),
+    RefPtr<ComputeMemoryObject> memoryObject = context->computeContext()->createImage2D(flags, imageDescriptor->width(),
         imageDescriptor->height(), imageDescriptor->rowPitch(), imageDescriptor->imageFormat(), data, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
@@ -57,7 +57,7 @@ PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, P
 }
 
 #if ENABLE(WEBGL)
-PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, WebGLRenderbuffer* webGLRenderbuffer, ExceptionObject& exception)
+RefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, WebGLRenderbuffer* webGLRenderbuffer, ExceptionObject& exception)
 {
     ASSERT(webGLRenderbuffer);
 
@@ -71,7 +71,7 @@ PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, W
     GC3Dsizei height = webGLRenderbuffer->getHeight();
 
     CCerror error;
-    PassRefPtr<ComputeMemoryObject> memoryObject = context->computeContext()->createFromGLRenderbuffer(flags, renderbufferID, error);
+    RefPtr<ComputeMemoryObject> memoryObject = context->computeContext()->createFromGLRenderbuffer(flags, renderbufferID, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -85,7 +85,7 @@ PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, W
     return imageObject.release();
 }
 
-PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, CCenum textureTarget, CCenum miplevel,
+RefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, CCenum textureTarget, CCenum miplevel,
                                            WebGLTexture* webGLTexture, ExceptionObject& exception)
 {
     ASSERT(webGLTexture);
@@ -99,7 +99,7 @@ PassRefPtr<WebCLImage> WebCLImage::create(WebCLContext* context, CCenum flags, C
     GC3Dsizei height = webGLTexture->getHeight(textureTarget, miplevel);
 
     CCerror error;
-    PassRefPtr<ComputeMemoryObject> memoryObject = context->computeContext()->createFromGLTexture2D(flags, textureTarget, miplevel, textureID, error);
+    RefPtr<ComputeMemoryObject> memoryObject = context->computeContext()->createFromGLTexture2D(flags, textureTarget, miplevel, textureID, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -151,7 +151,7 @@ void WebCLImage::cacheGLObjectInfo(CCenum type, int textureTarget, int mipmapLev
 }
 #endif
 
-WebCLImage::WebCLImage(WebCLContext* context, PassRefPtr<ComputeMemoryObject> image, PassRefPtr<WebCLImageDescriptor> imageDescriptor)
+WebCLImage::WebCLImage(WebCLContext* context, RefPtr<ComputeMemoryObject> image, RefPtr<WebCLImageDescriptor> imageDescriptor)
     : WebCLMemoryObject(context, image, 0 /* sizeInBytes */)
     , m_imageDescriptor(imageDescriptor)
 {

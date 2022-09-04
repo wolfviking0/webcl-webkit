@@ -48,7 +48,7 @@ void WebCLHTMLInterop::extractDataFromCanvas(HTMLCanvasElement* canvas, void*& h
         return;
     }
     Vector<uint8_t> data;
-    CCerror error = ComputeContext::CCPackImageData(canvas->copiedImage(), GraphicsContext3D::HtmlDomCanvas, canvas->width(), canvas->height(), data);
+    CCerror error = ComputeContext::CCPackImageData(canvas->copiedImage(), GraphicsContextGL::HtmlDomCanvas, canvas->width(), canvas->height(), data);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return;
@@ -68,7 +68,7 @@ void WebCLHTMLInterop::extractDataFromImage(HTMLImageElement* image, void*& host
         return;
     }
     Vector<uint8_t> data;
-    CCerror error = ComputeContext::CCPackImageData(image->cachedImage()->image(), GraphicsContext3D::HtmlDomImage, image->width(), image->height(), data);
+    CCerror error = ComputeContext::CCPackImageData(image->cachedImage()->image(), GraphicsContextGL::HtmlDomImage, image->width(), image->height(), data);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return;
@@ -109,7 +109,7 @@ void WebCLHTMLInterop::extractDataFromVideo(HTMLVideoElement* video, void*& host
     }
 
     Vector<uint8_t> data;
-    CCerror error = ComputeContext::CCPackImageData(image.get(), GraphicsContext3D::HtmlDomVideo, video->videoWidth(), video->videoHeight(), data);
+    CCerror error = ComputeContext::CCPackImageData(image.get(), GraphicsContextGL::HtmlDomVideo, video->videoWidth(), video->videoHeight(), data);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return;
@@ -123,7 +123,7 @@ void WebCLHTMLInterop::extractDataFromVideo(HTMLVideoElement* video, void*& host
     }
 }
 
-PassRefPtr<Image> WebCLHTMLInterop::videoFrameToImage(HTMLVideoElement* video)
+RefPtr<Image> WebCLHTMLInterop::videoFrameToImage(HTMLVideoElement* video)
 {
     if (!video || !video->videoWidth() || !video->videoHeight())
         return nullptr;

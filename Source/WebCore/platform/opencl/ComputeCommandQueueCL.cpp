@@ -39,7 +39,7 @@
 
 namespace WebCore {
 
-PassRefPtr<ComputeCommandQueue> ComputeCommandQueue::create(ComputeContext* context, ComputeDevice* device, CCCommandQueueProperties properties, CCerror& error)
+RefPtr<ComputeCommandQueue> ComputeCommandQueue::create(ComputeContext* context, ComputeDevice* device, CCCommandQueueProperties properties, CCerror& error)
 {
     return adoptRef(new ComputeCommandQueue(context, device, properties, error));
 }

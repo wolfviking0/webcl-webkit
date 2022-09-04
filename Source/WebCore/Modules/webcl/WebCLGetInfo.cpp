@@ -178,28 +178,28 @@ Vector<CCuint> WebCLGetInfo::getWebCLUintArray() const
     return m_webclIntArray;
 }
 
-PassRefPtr<WebCLImageDescriptor> WebCLGetInfo::getWebCLImageDescriptor() const
+RefPtr<WebCLImageDescriptor> WebCLGetInfo::getWebCLImageDescriptor() const
 {
     ASSERT(getType() == kTypeWebCLImageDescriptor);
     return m_webclImageDescriptor;
 }
 
-PassRefPtr<WebCLContext> WebCLGetInfo::getWebCLContext() const
+RefPtr<WebCLContext> WebCLGetInfo::getWebCLContext() const
 {
     ASSERT(getType() == kTypeWebCLContext);
     return m_webclContext;
 }
-PassRefPtr<WebCLProgram> WebCLGetInfo::getWebCLProgram() const
+RefPtr<WebCLProgram> WebCLGetInfo::getWebCLProgram() const
 {
     ASSERT(getType() == kTypeWebCLProgram);
     return m_webclProgram;
 }
-PassRefPtr<WebCLCommandQueue> WebCLGetInfo::getWebCLCommandQueue() const
+RefPtr<WebCLCommandQueue> WebCLGetInfo::getWebCLCommandQueue() const
 {
     ASSERT(getType() == kTypeWebCLCommandQueue);
     return m_webCLCommandQueue;
 }
-PassRefPtr<WebCLDevice> WebCLGetInfo::getWebCLDevice() const
+RefPtr<WebCLDevice> WebCLGetInfo::getWebCLDevice() const
 {
     ASSERT(getType() == kTypeWebCLDevice);
     return m_webCLDevice;
@@ -209,12 +209,12 @@ const Vector<RefPtr<WebCLDevice> >& WebCLGetInfo::getWebCLDevices() const
     ASSERT(getType() == kTypeWebCLDevices);
     return m_webCLDevices;
 }
-PassRefPtr<WebCLMemoryObject> WebCLGetInfo::getWebCLMemoryObject() const
+RefPtr<WebCLMemoryObject> WebCLGetInfo::getWebCLMemoryObject() const
 {
     ASSERT(getType() == kTypeWebCLMemoryObject);
     return m_webCLMemoryObject;
 }
-PassRefPtr<WebCLPlatform> WebCLGetInfo::getWebCLPlatform() const
+RefPtr<WebCLPlatform> WebCLGetInfo::getWebCLPlatform() const
 {
     ASSERT(getType() == kTypeWebCLPlatform);
     return m_webCLPlatform;

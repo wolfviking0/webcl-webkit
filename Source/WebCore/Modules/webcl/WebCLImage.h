@@ -45,11 +45,11 @@ class WebGLTexture;
 class WebCLImage : public WebCLMemoryObject {
 public:
     ~WebCLImage();
-    static PassRefPtr<WebCLImage> create(WebCLContext*, CCenum flags, PassRefPtr<WebCLImageDescriptor>, void*, ExceptionObject&);
+    static RefPtr<WebCLImage> create(WebCLContext*, CCenum flags, RefPtr<WebCLImageDescriptor>, void*, ExceptionObject&);
 
 #if ENABLE(WEBGL)
-    static PassRefPtr<WebCLImage> create(WebCLContext*, CCenum flags, WebGLRenderbuffer* webGLRenderbuffer, ExceptionObject&);
-    static PassRefPtr<WebCLImage> create(WebCLContext*, CCenum flags, CCenum textureTarget, CCenum miplevel, WebGLTexture*, ExceptionObject&);
+    static RefPtr<WebCLImage> create(WebCLContext*, CCenum flags, WebGLRenderbuffer* webGLRenderbuffer, ExceptionObject&);
+    static RefPtr<WebCLImage> create(WebCLContext*, CCenum flags, CCenum textureTarget, CCenum miplevel, WebGLTexture*, ExceptionObject&);
 
     int getGLTextureInfo(CCenum paramName, ExceptionObject&);
 #endif
@@ -62,7 +62,7 @@ public:
     }
 
 private:
-    WebCLImage(WebCLContext*, PassRefPtr<ComputeMemoryObject>, PassRefPtr<WebCLImageDescriptor>);
+    WebCLImage(WebCLContext*, RefPtr<ComputeMemoryObject>, RefPtr<WebCLImageDescriptor>);
 
 #if ENABLE(WEBGL)
     void cacheGLObjectInfo(CCenum type, int textureTarget, int mipmapLevel, WebGLObject*);

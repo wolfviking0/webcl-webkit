@@ -31,15 +31,13 @@
 
 #if ENABLE(WEBCL)
 
-#include "ExceptionBase.h"
-
 namespace WebCore {
 
 #define ExceptionObject ExceptionCode
 
 class WebCLException : public ExceptionBase {
 public:
-    static PassRefPtr<WebCLException> create(const ExceptionCodeDescription& description)
+    static RefPtr<WebCLException> create(const ExceptionCodeDescription& description)
     {
         return adoptRef(new WebCLException(description));
     }

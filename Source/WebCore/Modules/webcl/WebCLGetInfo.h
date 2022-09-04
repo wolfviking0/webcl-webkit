@@ -37,7 +37,7 @@
 #include "WebCLMemoryObject.h"
 #include "WebCLPlatform.h"
 #include "WebCLProgram.h"
-#include <wtf/PassRefPtr.h>
+#include <wtf/Ref.h>
 #include <wtf/RefPtr.h>
 #include <wtf/text/WTFString.h>
 
@@ -99,15 +99,15 @@ public:
     CCulong getUnsignedLong() const;
     CCenum getEnum() const;
     void* getVoidPointer() const;
-    PassRefPtr<WebCLImageDescriptor> getWebCLImageDescriptor() const;
+    RefPtr<WebCLImageDescriptor> getWebCLImageDescriptor() const;
     Vector<CCuint> getWebCLUintArray() const;
-    PassRefPtr<WebCLProgram> getWebCLProgram() const;
-    PassRefPtr<WebCLContext> getWebCLContext() const;
-    PassRefPtr<WebCLCommandQueue> getWebCLCommandQueue() const;
-    PassRefPtr<WebCLDevice> getWebCLDevice() const;
+    RefPtr<WebCLProgram> getWebCLProgram() const;
+    RefPtr<WebCLContext> getWebCLContext() const;
+    RefPtr<WebCLCommandQueue> getWebCLCommandQueue() const;
+    RefPtr<WebCLDevice> getWebCLDevice() const;
     const Vector<RefPtr<WebCLDevice> >& getWebCLDevices() const;
-    PassRefPtr<WebCLMemoryObject> getWebCLMemoryObject() const;
-    PassRefPtr<WebCLPlatform> getWebCLPlatform() const;
+    RefPtr<WebCLMemoryObject> getWebCLMemoryObject() const;
+    RefPtr<WebCLPlatform> getWebCLPlatform() const;
 
 private:
     Type m_type;

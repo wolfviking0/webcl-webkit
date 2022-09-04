@@ -91,7 +91,7 @@ for my $i (0..scalar(@buildSettingsLines) - 1) {
 my @undefinedSymbolsLines = split(/$INPUT_RECORD_SEPARATOR/, <<'END');
 Undefined symbols for architecture x86_64:
   "__ZN6WebKit12WebPageProxy28exposedRectChangedTimerFiredEPN7WebCore5TimerIS0_EE", referenced from:
-      __ZN6WebKit12WebPageProxyC2EPNS_10PageClientEN3WTF10PassRefPtrINS_15WebProcessProxyEEEPNS_12WebPageGroupEy in WebPageProxy.o
+      __ZN6WebKit12WebPageProxyC2EPNS_10PageClientEN3WTF10RefPtrINS_15WebProcessProxyEEEPNS_12WebPageGroupEy in WebPageProxy.o
 ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 END

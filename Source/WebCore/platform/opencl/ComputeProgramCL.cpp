@@ -33,7 +33,7 @@
 
 namespace WebCore {
 
-PassRefPtr<ComputeProgram> ComputeProgram::create(ComputeContext* context, const String& programSource, CCerror& error)
+RefPtr<ComputeProgram> ComputeProgram::create(ComputeContext* context, const String& programSource, CCerror& error)
 {
     return adoptRef(new ComputeProgram(context, programSource, error));
 }
@@ -61,9 +61,9 @@ CCerror ComputeProgram::buildProgram(const Vector<ComputeDevice*>& devices, cons
     return clBuildProgram(m_program, devices.size(), clDevices.data(), optionsPtr, notifyFunction, userData);
 }
 
-PassRefPtr<ComputeKernel> ComputeProgram::createKernel(const String& kernelName, CCerror& error)
+RefPtr<ComputeKernel> ComputeProgram::createKernel(const String& kernelName, CCerror& error)
 {
-    return ComputeKernel::create(this, kernelName.utf8().data(), error);
+    return ComputeKernel::create(this, kernelName, error);
 }
 
 Vector<RefPtr<ComputeKernel>> ComputeProgram::createKernelsInProgram(CCerror& error)

@@ -34,7 +34,7 @@ namespace WebCore {
 
 ComputeExtensions& ComputeExtensions::get()
 {
-    DEPRECATED_DEFINE_STATIC_LOCAL(ComputeExtensions, singleton, ());
+    static ComputeExtensions& singleton = *new ComputeExtensions();
     return singleton;
 }
 
@@ -91,14 +91,14 @@ void ComputeExtensions::initializeGlobalExtensions()
 
 bool ComputeExtensions::supportsExtension(const WTF::String& name) const
 {
-    if (name == "cl_khr_fp64")
-        return m_globalExtensions.contains("cl_khr_fp64");
-    if (name == "cl_khr_fp16")
-        return m_globalExtensions.contains("cl_khr_fp16");
+    if (name == "cl_khr_fp64"_s)
+        return m_globalExtensions.contains("cl_khr_fp64"_s);
+    if (name == "cl_khr_fp16"_s)
+        return m_globalExtensions.contains("cl_khr_fp16"_s);
 
-    if (name == "cl_khr_gl_sharing") {
+    if (name == "cl_khr_gl_sharing"_s) {
 #if PLATFORM(MAC)
-        return m_globalExtensions.contains("cl_APPLE_gl_sharing");
+        return m_globalExtensions.contains("cl_APPLE_gl_sharing"_s);
 #else
         // FIXME: implement support for other platforms.
         return false;
@@ -110,14 +110,14 @@ bool ComputeExtensions::supportsExtension(const WTF::String& name) const
 template <typename Type, typename Cache>
 bool ComputeExtensions::supportsExtension(const WTF::String& name, Type computeType, Cache& cache) const
 {
-    if (name == "cl_khr_fp64")
-        return cache.get(computeType).contains("cl_khr_fp64");
-    if (name == "cl_khr_fp16")
-        return cache.get(computeType).contains("cl_khr_fp16");
+    if (name == "cl_khr_fp64"_s)
+        return cache.get(computeType).contains("cl_khr_fp64"_s);
+    if (name == "cl_khr_fp16"_s)
+        return cache.get(computeType).contains("cl_khr_fp16"_s);
 
-    if (name == "cl_khr_gl_sharing") {
+    if (name == "cl_khr_gl_sharing"_s) {
 #if PLATFORM(MAC)
-        return cache.get(computeType).contains("cl_APPLE_gl_sharing");
+        return cache.get(computeType).contains("cl_APPLE_gl_sharing"_s);
 #else
         // FIXME: implement support for other platforms.
         return false;

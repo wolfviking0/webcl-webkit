@@ -45,12 +45,12 @@ WebCLEvent::~WebCLEvent()
     releasePlatformObject();
 }
 
-PassRefPtr<WebCLEvent> WebCLEvent::create()
+RefPtr<WebCLEvent> WebCLEvent::create()
 {
     return adoptRef(new WebCLEvent(ComputeEvent::create()));
 }
 
-WebCLEvent::WebCLEvent(PassRefPtr<ComputeEvent> event)
+WebCLEvent::WebCLEvent(RefPtr<ComputeEvent> event)
     : WebCLObjectImpl(event)
     , m_commandQueue(0)
     , m_isWaitedOn(false)
@@ -181,7 +181,7 @@ void WebCLEvent::callbackProxy(CCEvent, CCint, void* userData)
     callbackProxyOnMainThread(userData);
 }
 
-void WebCLEvent::setCallback(CCenum commandExecCallbackType, PassRefPtr<WebCLCallback> callback, ExceptionObject& exception)
+void WebCLEvent::setCallback(CCenum commandExecCallbackType, RefPtr<WebCLCallback> callback, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized() || !holdsValidCLObject()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_EVENT, exception);

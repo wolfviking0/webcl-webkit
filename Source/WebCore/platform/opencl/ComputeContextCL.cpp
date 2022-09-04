@@ -331,27 +331,29 @@ COMPILE_ASSERT_MATCHING_ENUM(ComputeContext::GL_OBJECT_RENDERBUFFER, CL_GL_OBJEC
 COMPILE_ASSERT_MATCHING_ENUM(ComputeContext::GL_TEXTURE_TARGET, CL_GL_TEXTURE_TARGET);
 COMPILE_ASSERT_MATCHING_ENUM(ComputeContext::GL_MIPMAP_LEVEL, CL_GL_MIPMAP_LEVEL);
 
-static void setUpComputeContextProperties(ComputePlatform* platform, GraphicsContext3D* glContext, Vector<CCContextProperties>& properties)
+static void setUpComputeContextProperties(ComputePlatform* platform, GraphicsContextGL* glContext, Vector<CCContextProperties>& properties)
 {
     if (platform) {
         properties.append(ComputeContext::CONTEXT_PLATFORM);
         properties.append(reinterpret_cast<CCContextProperties>(platform->platform()));
     }
-
-    if (glContext)
-        ComputeContext::populatePropertiesForInteroperabilityWithGL(properties, glContext->platformGraphicsContext3D());
+    
+    // TODO AL MISSING
+    UNUSED_PARAM(glContext);
+    //if (glContext)
+    //    ComputeContext::populatePropertiesForInteroperabilityWithGL(properties, glContext->platformGraphicsContextGL());
 
     // FIXME: If no valid platform or glContext is passed, context create fails.
     // It does work with a literal {0} though.
     properties.append(0);
 }
 
-PassRefPtr<ComputeContext> ComputeContext::create(const Vector<ComputeDevice*>& devices, ComputePlatform* platform, GraphicsContext3D* context3D, CCerror& error)
+RefPtr<ComputeContext> ComputeContext::create(const Vector<ComputeDevice*>& devices, ComputePlatform* platform, GraphicsContextGL* context3D, CCerror& error)
 {
     return adoptRef(new ComputeContext(devices, platform, context3D, error));
 }
 
-ComputeContext::ComputeContext(const Vector<ComputeDevice*>& devices, ComputePlatform* platform, GraphicsContext3D* context3D, CCerror& error)
+ComputeContext::ComputeContext(const Vector<ComputeDevice*>& devices, ComputePlatform* platform, GraphicsContextGL* context3D, CCerror& error)
 {
     Vector<CCDeviceID> clDevices;
     for (size_t i = 0; i < devices.size(); ++i)
@@ -380,47 +382,47 @@ CCerror ComputeContext::waitForEvents(const Vector<ComputeEvent*>& events)
     return clError;
 }
 
-PassRefPtr<ComputeCommandQueue> ComputeContext::createCommandQueue(ComputeDevice* device, CCCommandQueueProperties properties, CCerror& error)
+RefPtr<ComputeCommandQueue> ComputeContext::createCommandQueue(ComputeDevice* device, CCCommandQueueProperties properties, CCerror& error)
 {
     return ComputeCommandQueue::create(this, device, properties, error);
 }
 
-PassRefPtr<ComputeEvent> ComputeContext::createUserEvent(CCerror& error)
+RefPtr<ComputeEvent> ComputeContext::createUserEvent(CCerror& error)
 {
     return ComputeEvent::create(this, error);
 }
 
-PassRefPtr<ComputeProgram> ComputeContext::createProgram(const String& programSource, CCerror& error)
+RefPtr<ComputeProgram> ComputeContext::createProgram(const String& programSource, CCerror& error)
 {
     return ComputeProgram::create(this, programSource, error);
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeContext::createBuffer(CCMemoryFlags type, size_t size, void* data, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeContext::createBuffer(CCMemoryFlags type, size_t size, void* data, CCerror& error)
 {
     return ComputeMemoryObject::create(this, type, size, data, error);
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeContext::createImage2D(CCMemoryFlags flags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat& imageFormat, void* data, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeContext::createImage2D(CCMemoryFlags flags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat& imageFormat, void* data, CCerror& error)
 {
     return ComputeMemoryObject::create(this, flags, width, height, rowPitch, imageFormat, data, error);
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeContext::createFromGLBuffer(CCMemoryFlags flags, GC3Duint bufferId, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeContext::createFromGLBuffer(CCMemoryFlags flags, GCGLuint bufferId, CCerror& error)
 {
     return ComputeMemoryObject::create(this, flags, bufferId, GLBuffer, error);
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeContext::createFromGLRenderbuffer(CCMemoryFlags flags, GC3Duint renderbufferId, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeContext::createFromGLRenderbuffer(CCMemoryFlags flags, GCGLuint renderbufferId, CCerror& error)
 {
     return ComputeMemoryObject::create(this, flags, renderbufferId, GLRenderbuffer, error);
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeContext::createFromGLTexture2D(CCMemoryFlags flags, GC3Denum textureTarget, GC3Dint mipLevel, GC3Duint texture, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeContext::createFromGLTexture2D(CCMemoryFlags flags, GCGLenum textureTarget, GCGLint mipLevel, GCGLuint texture, CCerror& error)
 {
     return ComputeMemoryObject::create(this, flags, textureTarget, mipLevel, texture, error);
 }
 
-PassRefPtr<ComputeSampler> ComputeContext::createSampler(CCbool normalizedCoords, CCAddressingMode addressingMode, CCFilterMode filterMode, CCerror& error)
+RefPtr<ComputeSampler> ComputeContext::createSampler(CCbool normalizedCoords, CCAddressingMode addressingMode, CCFilterMode filterMode, CCerror& error)
 {
     return ComputeSampler::create(this, normalizedCoords, addressingMode, filterMode, error);
 }
@@ -439,15 +441,18 @@ CCerror ComputeContext::supportedImageFormats(CCMemoryFlags type, CCMemoryObject
     return clError;
 }
 
-void ComputeContext::populatePropertiesForInteroperabilityWithGL(Vector<CCContextProperties>& properties, PlatformGraphicsContext3D context3D)
+void ComputeContext::populatePropertiesForInteroperabilityWithGL(Vector<CCContextProperties>& properties, GraphicsContextGL context3D)
 {
 #if PLATFORM(MAC)
-    CGLContextObj kCGLContext = context3D;
-    CGLShareGroupObj kCGLShareGroup = CGLGetShareGroup(kCGLContext);
-    properties.append(CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE);
-    properties.append(reinterpret_cast<CCContextProperties>(kCGLShareGroup));
+    UNUSED_PARAM(properties);
+    UNUSED_PARAM(context3D);
+    // TODO AL MISSING
+    //CGLContextObj kCGLContext = context3D;
+    //CGLShareGroupObj kCGLShareGroup = CGLGetShareGroup(kCGLContext);
+    //properties.append(CL_CONTEXT_PROPERTY_USE_CGL_SHAREGROUP_APPLE);
+    //properties.append(reinterpret_cast<CCContextProperties>(kCGLShareGroup));
 #elif USE(GLX)
-    PlatformGraphicsContext3D glContext = context3D;
+    GraphicsContextGL glContext = context3D;
     properties.append(CL_GL_CONTEXT_KHR);
     properties.append(reinterpret_cast<CCContextProperties>(glContext));
     properties.append(CL_GLX_DISPLAY_KHR);
@@ -455,19 +460,24 @@ void ComputeContext::populatePropertiesForInteroperabilityWithGL(Vector<CCContex
 #endif
 }
 
-CCerror ComputeContext::CCPackImageData(Image* image, GraphicsContext3D::ImageHtmlDomSource domSource, unsigned width, unsigned height, Vector<uint8_t>& data)
+CCerror ComputeContext::CCPackImageData(Image* image, GraphicsContextGL::DOMSource domSource, unsigned width, unsigned height, Vector<uint8_t>& data)
 {
-    GraphicsContext3D::ImageExtractor imageExtractor(image, domSource, false /* non-premultiplied alpha*/, false);
+    GraphicsContextGLImageExtractor imageExtractor(image, domSource, false /* non-premultiplied alpha*/, false, false);
     if (!imageExtractor.extractSucceeded())
         return INVALID_HOST_PTR;
 
-    GraphicsContext3D::DataFormat sourceDataFormat = imageExtractor.imageSourceFormat();
-    GraphicsContext3D::AlphaOp alphaOp = imageExtractor.imageAlphaOp();
-    const void* imagePixelData = imageExtractor.imagePixelData();
-    unsigned imageSourceUnpackAlignment = imageExtractor.imageSourceUnpackAlignment();
-
-    if (GraphicsContext3D::packImageData(image, imagePixelData, GraphicsContext3D::RGBA, GraphicsContext3D::UNSIGNED_BYTE, false /* flipY */, alphaOp, sourceDataFormat, width, height, imageSourceUnpackAlignment, data))
-        return SUCCESS;
+    //GraphicsContextGL::DataFormat sourceDataFormat = imageExtractor.imageSourceFormat();
+    //GraphicsContextGL::AlphaOp alphaOp = imageExtractor.imageAlphaOp();
+    //const void* imagePixelData = imageExtractor.imagePixelData();
+    //unsigned imageSourceUnpackAlignment = imageExtractor.imageSourceUnpackAlignment();
+    
+    UNUSED_PARAM(width);
+    UNUSED_PARAM(height);
+    UNUSED_PARAM(data);
+    
+    // TODO AL MISSING
+    //if (GraphicsContextGL::packImageData(image, imagePixelData, GraphicsContextGL::RGBA, GraphicsContextGL::UNSIGNED_BYTE, false /* flipY */, alphaOp, sourceDataFormat, width, height, imageSourceUnpackAlignment, data))
+    //    return SUCCESS;
     return INVALID_HOST_PTR;
 }
 

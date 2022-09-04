@@ -70,7 +70,7 @@ WebCLKernel::~WebCLKernel()
     releasePlatformObject();
 }
 
-PassRefPtr<WebCLKernel> WebCLKernel::create(WebCLContext* context, WebCLProgram* program, const String& kernelName, ExceptionObject& exception)
+RefPtr<WebCLKernel> WebCLKernel::create(WebCLContext* context, WebCLProgram* program, const String& kernelName, ExceptionObject& exception)
 {
     CCerror error = ComputeContext::SUCCESS;
     RefPtr<ComputeKernel> computeKernel = program->computeProgram()->createKernel(kernelName, error);
@@ -107,7 +107,7 @@ Vector<RefPtr<WebCLKernel> > WebCLKernel::createKernelsInProgram(WebCLContext* c
     return kernels;
 }
 
-WebCLKernel::WebCLKernel(WebCLContext* context, WebCLProgram* program, PassRefPtr<ComputeKernel> kernel, const String& kernelName)
+WebCLKernel::WebCLKernel(WebCLContext* context, WebCLProgram* program, RefPtr<ComputeKernel> kernel, const String& kernelName)
     : WebCLObjectImpl(kernel)
     , m_context(context)
     , m_program(program)

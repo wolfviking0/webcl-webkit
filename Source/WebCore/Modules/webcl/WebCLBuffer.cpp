@@ -43,10 +43,10 @@ WebCLBuffer::~WebCLBuffer()
 {
 }
 
-PassRefPtr<WebCLBuffer> WebCLBuffer::create(WebCLContext* context, CCenum memoryFlags, CCuint sizeInBytes, void* data, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLBuffer::create(WebCLContext* context, CCenum memoryFlags, CCuint sizeInBytes, void* data, ExceptionObject& exception)
 {
     CCerror error = ComputeContext::SUCCESS;
-    PassRefPtr<ComputeMemoryObject> buffer = context->computeContext()->createBuffer(memoryFlags, sizeInBytes, data, error);
+    RefPtr<ComputeMemoryObject> buffer = context->computeContext()->createBuffer(memoryFlags, sizeInBytes, data, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -56,12 +56,12 @@ PassRefPtr<WebCLBuffer> WebCLBuffer::create(WebCLContext* context, CCenum memory
 }
 
 #if ENABLE(WEBGL)
-PassRefPtr<WebCLBuffer> WebCLBuffer::create(WebCLContext* context, CCenum memoryFlags, WebGLBuffer* webGLBuffer, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLBuffer::create(WebCLContext* context, CCenum memoryFlags, WebGLBuffer* webGLBuffer, ExceptionObject& exception)
 {
     Platform3DObject platform3DObject = webGLBuffer->object();
     ASSERT(platform3DObject);
     CCerror error = ComputeContext::SUCCESS;
-    PassRefPtr<ComputeMemoryObject> buffer = context->computeContext()->createFromGLBuffer(memoryFlags, platform3DObject, error);
+    RefPtr<ComputeMemoryObject> buffer = context->computeContext()->createFromGLBuffer(memoryFlags, platform3DObject, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -72,13 +72,13 @@ PassRefPtr<WebCLBuffer> WebCLBuffer::create(WebCLContext* context, CCenum memory
 }
 #endif
 
-WebCLBuffer::WebCLBuffer(WebCLContext* context, PassRefPtr<ComputeMemoryObject> buffer, CCuint sizeInBytes, WebCLBuffer* parentBuffer)
+WebCLBuffer::WebCLBuffer(WebCLContext* context, RefPtr<ComputeMemoryObject> buffer, CCuint sizeInBytes, WebCLBuffer* parentBuffer)
     : WebCLMemoryObject(context, buffer, sizeInBytes, parentBuffer)
     , m_weakFactoryForLazyInitialization(this)
 {
 }
 
-PassRefPtr<WebCLBuffer> WebCLBuffer::createSubBuffer(CCenum memoryFlags, CCuint origin, CCuint sizeInBytes, ExceptionObject& exception)
+RefPtr<WebCLBuffer> WebCLBuffer::createSubBuffer(CCenum memoryFlags, CCuint origin, CCuint sizeInBytes, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_MEM_OBJECT, exception);
@@ -97,7 +97,7 @@ PassRefPtr<WebCLBuffer> WebCLBuffer::createSubBuffer(CCenum memoryFlags, CCuint 
 
     CCBufferRegion bufferCreateInfo = {origin, sizeInBytes};
     CCerror error = 0;
-    PassRefPtr<ComputeMemoryObject> computeSubBuffer = platformObject()->createSubBuffer(memoryFlags, ComputeContext::BUFFER_CREATE_TYPE_REGION, &bufferCreateInfo, error);
+    RefPtr<ComputeMemoryObject> computeSubBuffer = platformObject()->createSubBuffer(memoryFlags, ComputeContext::BUFFER_CREATE_TYPE_REGION, &bufferCreateInfo, error);
 
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);

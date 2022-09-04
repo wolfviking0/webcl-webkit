@@ -42,12 +42,12 @@ class ComputeKernel;
 
 class ComputeProgram : public RefCounted<ComputeProgram> {
 public:
-    static PassRefPtr<ComputeProgram> create(ComputeContext*, const String& programSource, CCerror&);
+    static RefPtr<ComputeProgram> create(ComputeContext*, const String& programSource, CCerror&);
     ~ComputeProgram();
 
     CCerror buildProgram(const Vector<ComputeDevice*>& devices, const String& options, pfnNotify notifyFunction, void* userData);
 
-    PassRefPtr<ComputeKernel> createKernel(const String& kernelName, CCerror&);
+    RefPtr<ComputeKernel> createKernel(const String& kernelName, CCerror&);
     Vector<RefPtr<ComputeKernel>> createKernelsInProgram(CCerror&);
 
     template <typename T>

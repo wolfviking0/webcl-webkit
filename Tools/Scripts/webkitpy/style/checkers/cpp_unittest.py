@@ -130,13 +130,13 @@ class CppFunctionsTest(unittest.TestCase):
         self.assertEqual(cpp_style._convert_to_lower_with_underscores('aB'), 'a_b')
         self.assertEqual(cpp_style._convert_to_lower_with_underscores('isAName'), 'is_a_name')
         self.assertEqual(cpp_style._convert_to_lower_with_underscores('AnotherTest'), 'another_test')
-        self.assertEqual(cpp_style._convert_to_lower_with_underscores('PassRefPtr<MyClass>'), 'pass_ref_ptr<my_class>')
+        self.assertEqual(cpp_style._convert_to_lower_with_underscores('RefPtr<MyClass>'), 'pass_ref_ptr<my_class>')
         self.assertEqual(cpp_style._convert_to_lower_with_underscores('_ABC'), '_abc')
 
     def test_create_acronym(self):
         self.assertEqual(cpp_style._create_acronym('ABC'), 'ABC')
         self.assertEqual(cpp_style._create_acronym('IsAName'), 'IAN')
-        self.assertEqual(cpp_style._create_acronym('PassRefPtr<MyClass>'), 'PRP<MC>')
+        self.assertEqual(cpp_style._create_acronym('RefPtr<MyClass>'), 'PRP<MC>')
 
     def test_is_c_or_objective_c(self):
         clean_lines = cpp_style.CleansedLines([''])
@@ -156,8 +156,8 @@ class CppFunctionsTest(unittest.TestCase):
         self.assertEqual(parameter.row, 1)
 
         # Test type and name.
-        parameter = cpp_style.Parameter('PassRefPtr<MyClass> parent', 19, 1)
-        self.assertEqual(parameter.type, 'PassRefPtr<MyClass>')
+        parameter = cpp_style.Parameter('RefPtr<MyClass> parent', 19, 1)
+        self.assertEqual(parameter.type, 'RefPtr<MyClass>')
         self.assertEqual(parameter.name, 'parent')
         self.assertEqual(parameter.row, 1)
 
@@ -196,7 +196,7 @@ class CppFunctionsTest(unittest.TestCase):
         self.assertEqual(cpp_style.create_skeleton_parameters('long'), 'long,')
         self.assertEqual(cpp_style.create_skeleton_parameters('const unsigned long int'), '                    int,')
         self.assertEqual(cpp_style.create_skeleton_parameters('long int*'), '     int ,')
-        self.assertEqual(cpp_style.create_skeleton_parameters('PassRefPtr<Foo> a'), 'PassRefPtr      a,')
+        self.assertEqual(cpp_style.create_skeleton_parameters('RefPtr<Foo> a'), 'RefPtr      a,')
         self.assertEqual(cpp_style.create_skeleton_parameters(
                 'ComplexTemplate<NestedTemplate1<MyClass1, MyClass2>, NestedTemplate1<MyClass1, MyClass2> > param, int second'),
                           'ComplexTemplate                                                                            param, int second,')
@@ -211,18 +211,18 @@ class CppFunctionsTest(unittest.TestCase):
 
     def test_find_parameter_name_index(self):
         self.assertEqual(cpp_style.find_parameter_name_index(' int a '), 5)
-        self.assertEqual(cpp_style.find_parameter_name_index(' PassRefPtr     '), 16)
+        self.assertEqual(cpp_style.find_parameter_name_index(' RefPtr     '), 16)
         self.assertEqual(cpp_style.find_parameter_name_index('double'), 6)
 
     def test_parameter_list(self):
-        elided_lines = ['int blah(PassRefPtr<MyClass> paramName,',
+        elided_lines = ['int blah(RefPtr<MyClass> paramName,',
                         'const Other1Class& foo,',
                         'const ComplexTemplate<Class1, NestedTemplate<P1, P2> >* const * param = new ComplexTemplate<Class1, NestedTemplate<P1, P2> >(34, 42),',
                         'int* myCount = 0);']
         start_position = cpp_style.Position(row=0, column=8)
         end_position = cpp_style.Position(row=3, column=16)
 
-        expected_parameters = ({'type': 'PassRefPtr<MyClass>', 'name': 'paramName', 'row': 0},
+        expected_parameters = ({'type': 'RefPtr<MyClass>', 'name': 'paramName', 'row': 0},
                                {'type': 'const Other1Class&', 'name': 'foo', 'row': 1},
                                {'type': 'const ComplexTemplate<Class1, NestedTemplate<P1, P2> >* const *', 'name': 'param', 'row': 2},
                                {'type': 'int*', 'name': 'myCount', 'row': 3})
@@ -846,7 +846,7 @@ class FunctionDetectionTest(CppStyleTestBase):
         function_state = self.perform_function_detection(
             ['#define MyMacro(a) a',
              'virtual',
-             'AnotherTemplate<Class1, Class2> aFunctionName(PassRefPtr<MyClass> paramName,',
+             'AnotherTemplate<Class1, Class2> aFunctionName(RefPtr<MyClass> paramName,',
              'const Other1Class& foo,',
              'const ComplexTemplate<Class1, NestedTemplate<P1, P2> >* const * param = new ComplexTemplate<Class1, NestedTemplate<P1, P2> >(34, 42),',
              'int* myCount = 0);'],
@@ -863,7 +863,7 @@ class FunctionDetectionTest(CppStyleTestBase):
              'is_pure': False,
              'is_declaration': True,
              'parameter_list':
-                 ({'type': 'PassRefPtr<MyClass>', 'name': 'paramName', 'row': 2},
+                 ({'type': 'RefPtr<MyClass>', 'name': 'paramName', 'row': 2},
                   {'type': 'const Other1Class&', 'name': 'foo', 'row': 3},
                   {'type': 'const ComplexTemplate<Class1, NestedTemplate<P1, P2> >* const *', 'name': 'param', 'row': 4},
                   {'type': 'int*', 'name': 'myCount', 'row': 5})},
@@ -6320,7 +6320,7 @@ class WebKitStyleTest(CppStyleTestBase):
 
         # Verify that copying a type name will trigger the warning (even if the type is a template parameter).
         self.assertEqual(meaningless_variable_name_error_message % 'context',
-                          self.perform_lint('void funct(PassRefPtr<ScriptExecutionContext> context);', 'test.cpp', parameter_error_rules))
+                          self.perform_lint('void funct(RefPtr<ScriptExecutionContext> context);', 'test.cpp', parameter_error_rules))
 
         # Verify that acronyms as variable names trigger the error (for both set functions and type names).
         self.assertEqual(meaningless_variable_name_error_message % 'ec',
@@ -6348,7 +6348,7 @@ class WebKitStyleTest(CppStyleTestBase):
 
         # Don't have generate warnings for functions (only declarations).
         self.assertEqual('',
-                          self.perform_lint('void funct(PassRefPtr<ScriptExecutionContext> context)\n'
+                          self.perform_lint('void funct(RefPtr<ScriptExecutionContext> context)\n'
                                             '{\n'
                                             '}\n', 'test.cpp', parameter_error_rules))
 

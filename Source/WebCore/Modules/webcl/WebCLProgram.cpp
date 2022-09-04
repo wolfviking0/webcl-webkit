@@ -50,11 +50,11 @@ WebCLProgram::~WebCLProgram()
     releasePlatformObject();
 }
 
-PassRefPtr<WebCLProgram> WebCLProgram::create(WebCLContext* context, const String& programSource, ExceptionObject& exception)
+RefPtr<WebCLProgram> WebCLProgram::create(WebCLContext* context, const String& programSource, ExceptionObject& exception)
 {
     CCerror error = 0;
 
-    PassRefPtr<ComputeProgram> computeProgram = context->computeContext()->createProgram(programSource, error);
+    RefPtr<ComputeProgram> computeProgram = context->computeContext()->createProgram(programSource, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -63,7 +63,7 @@ PassRefPtr<WebCLProgram> WebCLProgram::create(WebCLContext* context, const Strin
     return adoptRef(new WebCLProgram(context, computeProgram, programSource));
 }
 
-WebCLProgram::WebCLProgram(WebCLContext*context, PassRefPtr<ComputeProgram> program, const String& programSource)
+WebCLProgram::WebCLProgram(WebCLContext*context, RefPtr<ComputeProgram> program, const String& programSource)
     : WebCLObjectImpl(program)
     , m_context(context)
     , m_programSource(programSource)
@@ -138,7 +138,7 @@ WebCLGetInfo WebCLProgram::getBuildInfo(WebCLDevice* device, CCenum infoType, Ex
     return WebCLGetInfo();
 }
 
-PassRefPtr<WebCLKernel> WebCLProgram::createKernel(const String& kernelName, ExceptionObject& exception)
+RefPtr<WebCLKernel> WebCLProgram::createKernel(const String& kernelName, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_PROGRAM, exception);
@@ -203,7 +203,7 @@ bool WebCLProgram::isExtensionEnabled(WebCLContext* context, const String& name)
     return context->isExtensionEnabled(name);
 };
 
-void WebCLProgram::build(const Vector<RefPtr<WebCLDevice> >& devices, const String& buildOptions, PassRefPtr<WebCLCallback> callback, ExceptionObject& exception)
+void WebCLProgram::build(const Vector<RefPtr<WebCLDevice> >& devices, const String& buildOptions, RefPtr<WebCLCallback> callback, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_PROGRAM, exception);

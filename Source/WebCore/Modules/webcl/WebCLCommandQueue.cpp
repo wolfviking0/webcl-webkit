@@ -55,10 +55,10 @@ WebCLCommandQueue::~WebCLCommandQueue()
     releasePlatformObject();
 }
 
-PassRefPtr<WebCLCommandQueue> WebCLCommandQueue::create(WebCLContext* context, CCenum properties, WebCLDevice* webCLDevice, ExceptionObject& exception)
+RefPtr<WebCLCommandQueue> WebCLCommandQueue::create(WebCLContext* context, CCenum properties, WebCLDevice* webCLDevice, ExceptionObject& exception)
 {
     CCerror error = ComputeContext::SUCCESS;
-    PassRefPtr<ComputeCommandQueue> computeCommandQueue = context->computeContext()->createCommandQueue(webCLDevice->platformObject(), properties, error);
+    RefPtr<ComputeCommandQueue> computeCommandQueue = context->computeContext()->createCommandQueue(webCLDevice->platformObject(), properties, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -68,7 +68,7 @@ PassRefPtr<WebCLCommandQueue> WebCLCommandQueue::create(WebCLContext* context, C
     return queue.release();
 }
 
-WebCLCommandQueue::WebCLCommandQueue(WebCLContext* context, PassRefPtr<ComputeCommandQueue> computeCommandQueue, WebCLDevice* webCLDevice)
+WebCLCommandQueue::WebCLCommandQueue(WebCLContext* context, RefPtr<ComputeCommandQueue> computeCommandQueue, WebCLDevice* webCLDevice)
     : WebCLObjectImpl(computeCommandQueue)
     , m_context(context)
     , m_device(webCLDevice)
@@ -700,7 +700,7 @@ void WebCLCommandQueue::enqueueWaitForEvents(const Vector<RefPtr<WebCLEvent> >& 
     setExceptionFromComputeErrorCode(error, exception);
 }
 
-void WebCLCommandQueue::finish(PassRefPtr<WebCLCallback> callback, ExceptionObject& exception)
+void WebCLCommandQueue::finish(RefPtr<WebCLCallback> callback, ExceptionObject& exception)
 {
     if (isPlatformObjectNeutralized()) {
         setExceptionFromComputeErrorCode(ComputeContext::INVALID_COMMAND_QUEUE, exception);

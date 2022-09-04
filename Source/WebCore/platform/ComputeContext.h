@@ -31,10 +31,11 @@
 #include "ComputeContext.h"
 #include "ComputeTypes.h"
 #include "ComputeTypesTraits.h"
-#include "GraphicsTypes3D.h"
-#include "GraphicsContext3D.h"
+#include "GraphicsTypesGL.h"
+#include "GraphicsContextGL.h"
+#include "GraphicsContextGLImageExtractor.h"
 
-#include <wtf/PassRefPtr.h>
+#include <wtf/Ref.h>
 #include <wtf/Vector.h>
 
 namespace WebCore {
@@ -332,22 +333,22 @@ public:
         GL_MIPMAP_LEVEL = 0x2005,
     };
 
-    static PassRefPtr<ComputeContext> create(const Vector<ComputeDevice*>&, ComputePlatform*, GraphicsContext3D*, CCerror&);
-    ComputeContext(const Vector<ComputeDevice*>&, ComputePlatform*, GraphicsContext3D*, CCerror&);
+    static RefPtr<ComputeContext> create(const Vector<ComputeDevice*>&, ComputePlatform*, GraphicsContextGL*, CCerror&);
+    ComputeContext(const Vector<ComputeDevice*>&, ComputePlatform*, GraphicsContextGL*, CCerror&);
     ~ComputeContext();
 
     static CCerror waitForEvents(const Vector<ComputeEvent* >&);
 
-    PassRefPtr<ComputeCommandQueue> createCommandQueue(ComputeDevice*, CCCommandQueueProperties, CCerror&);
-    PassRefPtr<ComputeProgram> createProgram(const String& programSource, CCerror&);
-    PassRefPtr<ComputeEvent> createUserEvent(CCerror&);
-    PassRefPtr<ComputeSampler> createSampler(CCbool normalizedCoords, CCAddressingMode, CCFilterMode, CCerror&);
+    RefPtr<ComputeCommandQueue> createCommandQueue(ComputeDevice*, CCCommandQueueProperties, CCerror&);
+    RefPtr<ComputeProgram> createProgram(const String& programSource, CCerror&);
+    RefPtr<ComputeEvent> createUserEvent(CCerror&);
+    RefPtr<ComputeSampler> createSampler(CCbool normalizedCoords, CCAddressingMode, CCFilterMode, CCerror&);
 
-    PassRefPtr<ComputeMemoryObject> createBuffer(CCMemoryFlags type, size_t, void* data, CCerror&);
-    PassRefPtr<ComputeMemoryObject> createImage2D(CCMemoryFlags type, size_t width, size_t height, CCuint rowPitch, const CCImageFormat&, void* data, CCerror&);
-    PassRefPtr<ComputeMemoryObject> createFromGLBuffer(CCMemoryFlags type, GC3Duint bufferId, CCerror&);
-    PassRefPtr<ComputeMemoryObject> createFromGLRenderbuffer(CCMemoryFlags type, GC3Duint renderbufferId, CCerror&);
-    PassRefPtr<ComputeMemoryObject> createFromGLTexture2D(CCMemoryFlags type, GC3Denum textureTarget, GC3Dint mipLevel, GC3Duint texture, CCerror&);
+    RefPtr<ComputeMemoryObject> createBuffer(CCMemoryFlags type, size_t, void* data, CCerror&);
+    RefPtr<ComputeMemoryObject> createImage2D(CCMemoryFlags type, size_t width, size_t height, CCuint rowPitch, const CCImageFormat&, void* data, CCerror&);
+    RefPtr<ComputeMemoryObject> createFromGLBuffer(CCMemoryFlags type, GCGLuint bufferId, CCerror&);
+    RefPtr<ComputeMemoryObject> createFromGLRenderbuffer(CCMemoryFlags type, GCGLuint renderbufferId, CCerror&);
+    RefPtr<ComputeMemoryObject> createFromGLTexture2D(CCMemoryFlags type, GCGLenum textureTarget, GCGLint mipLevel, GCGLuint texture, CCerror&);
 
     CCerror supportedImageFormats(CCMemoryFlags, CCMemoryObjectType, Vector<CCImageFormat>&);
 
@@ -356,11 +357,11 @@ public:
         return m_clContext;
     }
 
-    static void populatePropertiesForInteroperabilityWithGL(Vector<CCContextProperties>&, PlatformGraphicsContext3D);
+    static void populatePropertiesForInteroperabilityWithGL(Vector<CCContextProperties>&, GraphicsContextGL);
 
-    // Using GraphicsContext3D::packImageData for HTML image extension
+    // Using GraphicsContextGL::packImageData for HTML image extension
     // The source pixel format is treated as 32-bit RGBA (8-bits per component) with non-premultiplied alpha, regardless of the source
-    static CCerror CCPackImageData(Image*, GraphicsContext3D::ImageHtmlDomSource, unsigned width, unsigned height, Vector<uint8_t>&);
+    static CCerror CCPackImageData(Image*, GraphicsContextGL::DOMSource, unsigned width, unsigned height, Vector<uint8_t>&);
 
 private:
     CCContext m_clContext;

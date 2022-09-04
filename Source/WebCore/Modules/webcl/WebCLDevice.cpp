@@ -44,7 +44,7 @@ WebCLDevice::~WebCLDevice()
 {
 }
 
-PassRefPtr<WebCLDevice> WebCLDevice::create(RefPtr<ComputeDevice> device, WebCLPlatform* platform)
+RefPtr<WebCLDevice> WebCLDevice::create(RefPtr<ComputeDevice> device, WebCLPlatform* platform)
 {
     return adoptRef(new WebCLDevice(device, platform));
 }

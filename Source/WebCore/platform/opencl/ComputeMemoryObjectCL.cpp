@@ -63,22 +63,22 @@ static cl_mem_flags computeMemoryTypeToCL(int memoryType)
     return clMemoryType;
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, size_t size, void* data, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, size_t size, void* data, CCerror& error)
 {
     return adoptRef(new ComputeMemoryObject(context, flags, size, data, error));
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat& imageFormat, void* data, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat& imageFormat, void* data, CCerror& error)
 {
     return adoptRef(new ComputeMemoryObject(context, flags, width, height, rowPitch, imageFormat, data, error));
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, GC3Duint bufferId, GLBufferSourceType type, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, GCGLuint bufferId, GLBufferSourceType type, CCerror& error)
 {
     return adoptRef(new ComputeMemoryObject(context, flags, bufferId, type, error));
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, GC3Denum textureTarget, GC3Dint mipLevel, GC3Duint texture, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeMemoryObject::create(ComputeContext* context, CCMemoryFlags flags, GCGLenum textureTarget, GCGLint mipLevel, GCGLuint texture, CCerror& error)
 {
     return adoptRef(new ComputeMemoryObject(context, flags, textureTarget, mipLevel, texture, error));
 }
@@ -104,7 +104,7 @@ ComputeMemoryObject::ComputeMemoryObject(ComputeContext* context, CCMemoryFlags 
 #endif
 }
 
-ComputeMemoryObject::ComputeMemoryObject(ComputeContext* context, CCMemoryFlags flags, GC3Duint bufferId, GLBufferSourceType type, CCerror& error)
+ComputeMemoryObject::ComputeMemoryObject(ComputeContext* context, CCMemoryFlags flags, GCGLuint bufferId, GLBufferSourceType type, CCerror& error)
 {
     CCint memoryType = computeMemoryTypeToCL(flags);
     if (type == GLBuffer)
@@ -113,7 +113,7 @@ ComputeMemoryObject::ComputeMemoryObject(ComputeContext* context, CCMemoryFlags 
         m_memoryObject = clCreateFromGLRenderbuffer(context->context(), memoryType, bufferId, &error);
 }
 
-ComputeMemoryObject::ComputeMemoryObject(ComputeContext* context, CCMemoryFlags flags, GC3Denum textureTarget, GC3Dint mipLevel, GC3Duint texture, CCerror& error)
+ComputeMemoryObject::ComputeMemoryObject(ComputeContext* context, CCMemoryFlags flags, GCGLenum textureTarget, GCGLint mipLevel, GCGLuint texture, CCerror& error)
 {
     CCMemoryFlags memoryType = computeMemoryTypeToCL(flags);
 #if defined(CL_VERSION_1_2) && CL_VERSION_1_2
@@ -128,7 +128,7 @@ ComputeMemoryObject::ComputeMemoryObject(PlatformComputeObject memoryObject)
 {
 }
 
-PassRefPtr<ComputeMemoryObject> ComputeMemoryObject::createSubBuffer(CCMemoryFlags flags, CCBufferCreateType bufferCreateType, CCBufferRegion* bufferRegion, CCerror& error)
+RefPtr<ComputeMemoryObject> ComputeMemoryObject::createSubBuffer(CCMemoryFlags flags, CCBufferCreateType bufferCreateType, CCBufferRegion* bufferRegion, CCerror& error)
 {
     PlatformComputeObject memoryObject = clCreateSubBuffer(m_memoryObject, flags, bufferCreateType, bufferRegion, &error);
     return adoptRef(new ComputeMemoryObject(memoryObject));

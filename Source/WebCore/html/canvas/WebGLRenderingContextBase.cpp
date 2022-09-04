@@ -1360,7 +1360,7 @@ bool WebGLRenderingContextBase::clearIfComposited(WebGLRenderingContextBase::Cal
     if (!buffersNeedingClearing || (mask && m_framebufferBinding) || (m_rasterizerDiscardEnabled && caller == CallerTypeDrawOrClear))
         return false;
 
-    // Use the underlying GraphicsContext3D's attributes to take into
+    // Use the underlying GraphicsContextGL's attributes to take into
     // account (for example) packed depth/stencil buffers.
     auto contextAttributes = m_context->contextAttributes();
 

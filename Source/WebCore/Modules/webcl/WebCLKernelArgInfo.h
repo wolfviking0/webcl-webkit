@@ -56,7 +56,7 @@ public:
         UNKNOWN
     };
 
-    static PassRefPtr<WebCLKernelArgInfo> create(const String& addressQualifier, const String& accessQualifier, const String& type, const String& name, const bool isPointerType = false) { return adoptRef(new WebCLKernelArgInfo(addressQualifier, accessQualifier, type, name, isPointerType)); }
+    static RefPtr<WebCLKernelArgInfo> create(const String& addressQualifier, const String& accessQualifier, const String& type, const String& name, const bool isPointerType = false) { return adoptRef(new WebCLKernelArgInfo(addressQualifier, accessQualifier, type, name, isPointerType)); }
 
     String name() const { return m_name; }
     String typeName() const { return m_type; }
@@ -87,51 +87,51 @@ private:
         if (isPointerType)
             return WebCLKernelTypes::BUFFER;
 
-        static NeverDestroyed<AtomicString> image2d_t("image2d_t");
+        static NeverDestroyed<AtomString> image2d_t("image2d_t");
         if (typeName == image2d_t)
             return WebCLKernelTypes::IMAGE;
 
-        static NeverDestroyed<AtomicString> sampler_t("sampler_t");
+        static NeverDestroyed<AtomString> sampler_t("sampler_t");
         if (typeName == sampler_t)
             return WebCLKernelTypes::SAMPLER;
 
-        static NeverDestroyed<AtomicString> ucharLiteral("uchar");
+        static NeverDestroyed<AtomString> ucharLiteral("uchar");
         if (typeName.contains(ucharLiteral.get()))
             return WebCLKernelTypes::UCHAR;
-        static NeverDestroyed<AtomicString> charLiteral("char");
+        static NeverDestroyed<AtomString> charLiteral("char");
         if (typeName.contains(charLiteral.get()))
             return WebCLKernelTypes::CHAR;
 
-        static NeverDestroyed<AtomicString> ushortLiteral("ushort");
+        static NeverDestroyed<AtomString> ushortLiteral("ushort");
         if (typeName.contains(ushortLiteral.get()))
             return WebCLKernelTypes::USHORT;
-        static NeverDestroyed<AtomicString> shortLiteral("short");
+        static NeverDestroyed<AtomString> shortLiteral("short");
         if (typeName.contains(shortLiteral.get()))
             return WebCLKernelTypes::SHORT;
 
-        static NeverDestroyed<AtomicString> uintLiteral("uint");
+        static NeverDestroyed<AtomString> uintLiteral("uint");
         if (typeName.contains(uintLiteral.get()))
             return WebCLKernelTypes::UINT;
-        static NeverDestroyed<AtomicString> intLiteral("int");
+        static NeverDestroyed<AtomString> intLiteral("int");
         if (typeName.contains(intLiteral.get()))
             return WebCLKernelTypes::INT;
 
-        static NeverDestroyed<AtomicString> ulongLiteral("ulong");
+        static NeverDestroyed<AtomString> ulongLiteral("ulong");
         if (typeName.contains(ulongLiteral.get()))
             return WebCLKernelTypes::ULONG;
-        static NeverDestroyed<AtomicString> longLiteral("long");
+        static NeverDestroyed<AtomString> longLiteral("long");
         if (typeName.contains(longLiteral.get()))
             return WebCLKernelTypes::LONG;
 
-        static NeverDestroyed<AtomicString> floatLiteral("float");
+        static NeverDestroyed<AtomString> floatLiteral("float");
         if (typeName.contains(floatLiteral.get()))
             return WebCLKernelTypes::FLOAT;
 
-        static NeverDestroyed<AtomicString> doubleLiteral("double");
+        static NeverDestroyed<AtomString> doubleLiteral("double");
         if (typeName.contains(doubleLiteral.get()))
             return WebCLKernelTypes::DOUBLE;
 
-        static NeverDestroyed<AtomicString> halfLiteral("half");
+        static NeverDestroyed<AtomString> halfLiteral("half");
         if (typeName.contains(halfLiteral.get()))
             return WebCLKernelTypes::HALF;
 

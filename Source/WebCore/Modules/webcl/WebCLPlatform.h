@@ -42,7 +42,7 @@ class WebCLGetInfo;
 class WebCLPlatform : public RefCounted<WebCLPlatform>, public WebCLExtensionsAccessor<ComputePlatform*> {
 public:
     virtual ~WebCLPlatform();
-    static PassRefPtr<WebCLPlatform> create(RefPtr<ComputePlatform>);
+    static RefPtr<WebCLPlatform> create(RefPtr<ComputePlatform>);
 
     WebCLGetInfo getInfo (CCenum, ExceptionObject&);
     Vector<RefPtr<WebCLDevice> > getDevices(CCenum, ExceptionObject&);

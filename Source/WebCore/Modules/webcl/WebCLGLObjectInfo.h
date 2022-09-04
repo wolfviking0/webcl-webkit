@@ -30,7 +30,7 @@
 
 #if ENABLE(WEBCL) && ENABLE(WEBGL)
 
-#include <wtf/PassRefPtr.h>
+#include <wtf/Ref.h>
 #include <wtf/RefCounted.h>
 
 namespace WebCore {
@@ -42,7 +42,7 @@ class WebCLGLObjectInfo : public RefCounted<WebCLGLObjectInfo>
 public:
     ~WebCLGLObjectInfo() { }
 
-    static PassRefPtr<WebCLGLObjectInfo> create(int objectType, int textureTarget, int mipmapLevel, WebGLObject*);
+    static RefPtr<WebCLGLObjectInfo> create(int objectType, int textureTarget, int mipmapLevel, WebGLObject*);
 
     int type() const;
     int textureTarget() const;

@@ -42,7 +42,7 @@ WebCLPlatform::~WebCLPlatform()
 {
 }
 
-PassRefPtr<WebCLPlatform> WebCLPlatform::create(RefPtr<ComputePlatform> platform)
+RefPtr<WebCLPlatform> WebCLPlatform::create(RefPtr<ComputePlatform> platform)
 {
     return adoptRef(new WebCLPlatform(platform));
 }

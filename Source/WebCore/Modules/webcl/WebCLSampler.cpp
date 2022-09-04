@@ -41,10 +41,10 @@ WebCLSampler::~WebCLSampler()
     releasePlatformObject();
 }
 
-PassRefPtr<WebCLSampler> WebCLSampler::create(WebCLContext* context, CCbool normCoords, CCenum addressingMode, CCenum filterMode, ExceptionObject& exception)
+RefPtr<WebCLSampler> WebCLSampler::create(WebCLContext* context, CCbool normCoords, CCenum addressingMode, CCenum filterMode, ExceptionObject& exception)
 {
     CCerror error;
-    PassRefPtr<ComputeSampler> computeSampler = context->computeContext()->createSampler(normCoords, addressingMode, filterMode, error);
+    RefPtr<ComputeSampler> computeSampler = context->computeContext()->createSampler(normCoords, addressingMode, filterMode, error);
     if (error != ComputeContext::SUCCESS) {
         setExceptionFromComputeErrorCode(error, exception);
         return nullptr;
@@ -53,7 +53,7 @@ PassRefPtr<WebCLSampler> WebCLSampler::create(WebCLContext* context, CCbool norm
     return adoptRef(new WebCLSampler(context, computeSampler, normCoords, addressingMode, filterMode));
 }
 
-WebCLSampler::WebCLSampler(WebCLContext* context, PassRefPtr<ComputeSampler> sampler, CCbool normCoords, CCenum addressingMode, CCenum filterMode)
+WebCLSampler::WebCLSampler(WebCLContext* context, RefPtr<ComputeSampler> sampler, CCbool normCoords, CCenum addressingMode, CCenum filterMode)
     : WebCLObjectImpl(sampler)
     , m_normCoords(normCoords)
     , m_addressingMode(addressingMode)

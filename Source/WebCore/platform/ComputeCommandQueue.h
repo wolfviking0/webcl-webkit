@@ -44,7 +44,7 @@ class ComputeKernel;
 
 class ComputeCommandQueue : public RefCounted<ComputeCommandQueue> {
 public:
-    static PassRefPtr<ComputeCommandQueue> create(ComputeContext*, ComputeDevice*, CCCommandQueueProperties, CCerror&);
+    static RefPtr<ComputeCommandQueue> create(ComputeContext*, ComputeDevice*, CCCommandQueueProperties, CCerror&);
     ~ComputeCommandQueue();
 
     CCerror enqueueNDRangeKernel(ComputeKernel*, CCuint globalWorkItemDimensions, const Vector<size_t>& globalWorkOffset,

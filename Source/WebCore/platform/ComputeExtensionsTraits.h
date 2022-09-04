@@ -58,8 +58,7 @@ struct CacheExtensions
             return true;
         }
 
-        Vector<String> extensionArray;
-        String(buffer.data()).split(" ", extensionArray);
+        Vector<String> extensionArray = String(buffer.data(), buffer.size()).split(StringView(" ", 1));
 
         for (size_t i = 0; i < extensionArray.size(); ++i)
             extensionSet.add(extensionArray[i]);

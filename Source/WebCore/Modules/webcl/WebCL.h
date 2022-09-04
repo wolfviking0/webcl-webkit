@@ -44,27 +44,27 @@ class WebGLRenderingContext;
 
 class WebCL : public RefCounted<WebCL> , public WebCLExtensionsAccessor<> {
 public:
-    static PassRefPtr<WebCL> create();
+    static RefPtr<WebCL> create();
     virtual ~WebCL() { }
 
     Vector<RefPtr<WebCLPlatform> > getPlatforms(ExceptionObject&);
 
-    void waitForEvents(const Vector<RefPtr<WebCLEvent> >&, PassRefPtr<WebCLCallback>, ExceptionObject&);
+    void waitForEvents(const Vector<RefPtr<WebCLEvent> >&, RefPtr<WebCLCallback>, ExceptionObject&);
 
-    PassRefPtr<WebCLContext> createContext(ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(CCenum deviceType, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebGLRenderingContext*, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebGLRenderingContext*, CCenum deviceType, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(ExceptionObject&);
+    RefPtr<WebCLContext> createContext(CCenum deviceType, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebGLRenderingContext*, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebGLRenderingContext*, CCenum deviceType, ExceptionObject&);
 
-    PassRefPtr<WebCLContext> createContext(WebCLPlatform*, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebCLPlatform*, CCenum deviceType, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebGLRenderingContext*, WebCLPlatform*, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebGLRenderingContext*, WebCLPlatform*, CCenum deviceType, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebCLPlatform*, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebCLPlatform*, CCenum deviceType, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebGLRenderingContext*, WebCLPlatform*, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebGLRenderingContext*, WebCLPlatform*, CCenum deviceType, ExceptionObject&);
 
-    PassRefPtr<WebCLContext> createContext(const Vector<RefPtr<WebCLDevice> >&, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebCLDevice*, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebGLRenderingContext*, const Vector<RefPtr<WebCLDevice> >&, ExceptionObject&);
-    PassRefPtr<WebCLContext> createContext(WebGLRenderingContext*, WebCLDevice*, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(const Vector<RefPtr<WebCLDevice> >&, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebCLDevice*, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebGLRenderingContext*, const Vector<RefPtr<WebCLDevice> >&, ExceptionObject&);
+    RefPtr<WebCLContext> createContext(WebGLRenderingContext*, WebCLDevice*, ExceptionObject&);
 
     void trackReleaseableWebCLObject(WeakPtr<WebCLObject>);
     void releaseAll();

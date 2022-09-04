@@ -35,7 +35,7 @@
 
 namespace WebCore {
 
-PassRefPtr<WebCLGLObjectInfo> WebCLGLObjectInfo::create(int glObjectType, int textureTarget, int mipmapLevel, WebGLObject* glObject)
+RefPtr<WebCLGLObjectInfo> WebCLGLObjectInfo::create(int glObjectType, int textureTarget, int mipmapLevel, WebGLObject* glObject)
 {
     return adoptRef(new WebCLGLObjectInfo(glObjectType, textureTarget, mipmapLevel, glObject));
 }

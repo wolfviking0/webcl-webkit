@@ -30,8 +30,8 @@
 
 #include "ComputeTypes.h"
 #include "ComputeTypesTraits.h"
-#include "GraphicsTypes3D.h"
-#include "GraphicsContext3D.h"
+#include "GraphicsTypesGL.h"
+#include "GraphicsContextGL.h"
 
 #include <wtf/RefCounted.h>
 
@@ -44,14 +44,14 @@ typedef enum { GLBuffer, GLRenderbuffer } GLBufferSourceType;
 class ComputeMemoryObject : public RefCounted<ComputeMemoryObject> {
 public:
 
-    static PassRefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, size_t sizeInBytes, void* data, CCerror&);
-    static PassRefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat&, void* data, CCerror&);
-    static PassRefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, GC3Duint bufferId, GLBufferSourceType, CCerror&);
-    static PassRefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, GC3Denum textureTarget, GC3Dint mipLevel, GC3Duint texture, CCerror&);
+    static RefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, size_t sizeInBytes, void* data, CCerror&);
+    static RefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat&, void* data, CCerror&);
+    static RefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, GCGLuint bufferId, GLBufferSourceType, CCerror&);
+    static RefPtr<ComputeMemoryObject> create(ComputeContext*, CCMemoryFlags, GCGLenum textureTarget, GCGLint mipLevel, GCGLuint texture, CCerror&);
 
     ~ComputeMemoryObject();
 
-    PassRefPtr<ComputeMemoryObject> createSubBuffer(CCMemoryFlags, CCBufferCreateType, CCBufferRegion*, CCerror&);
+    RefPtr<ComputeMemoryObject> createSubBuffer(CCMemoryFlags, CCBufferCreateType, CCBufferRegion*, CCerror&);
 
     template <typename T>
     CCerror getImageInfo(CCImageInfoType infoType, T* data)
@@ -79,8 +79,8 @@ public:
 private:
     ComputeMemoryObject(ComputeContext*, CCMemoryFlags, size_t sizeInBytes, void* data, CCerror&);
     ComputeMemoryObject(ComputeContext*, CCMemoryFlags, size_t width, size_t height, CCuint rowPitch, const CCImageFormat&, void* data, CCerror&);
-    ComputeMemoryObject(ComputeContext*, CCMemoryFlags, GC3Duint bufferId, GLBufferSourceType, CCerror&);
-    ComputeMemoryObject(ComputeContext*, CCMemoryFlags, GC3Denum textureTarget, GC3Dint mipLevel, GC3Duint texture, CCerror&);
+    ComputeMemoryObject(ComputeContext*, CCMemoryFlags, GCGLuint bufferId, GLBufferSourceType, CCerror&);
+    ComputeMemoryObject(ComputeContext*, CCMemoryFlags, GCGLenum textureTarget, GCGLint mipLevel, GCGLuint texture, CCerror&);
 
     ComputeMemoryObject(PlatformComputeObject); // Used for creating a subbuffer.
 

@@ -39,7 +39,7 @@ class WebCLContext;
 class WebCLUserEvent : public WebCLEvent {
 public:
     ~WebCLUserEvent();
-    static PassRefPtr<WebCLUserEvent> create(WebCLContext*, ExceptionObject&);
+    static RefPtr<WebCLUserEvent> create(WebCLContext*, ExceptionObject&);
 
     enum EventStatusSituation { StatusUnset, StatusSet };
 
@@ -49,7 +49,7 @@ public:
     virtual WebCLContext* context() const;
 
 private:
-    WebCLUserEvent(WebCLContext*, PassRefPtr<ComputeEvent>);
+    WebCLUserEvent(WebCLContext*, RefPtr<ComputeEvent>);
 
     RefPtr<WebCLContext> m_context;
     enum EventStatusSituation m_eventStatusSituation;

@@ -44,12 +44,12 @@ WebCLMemoryObject::~WebCLMemoryObject()
     releasePlatformObject();
 }
 
-PassRefPtr<WebCLMemoryObject> WebCLMemoryObject::create(WebCLContext* context, PassRefPtr<ComputeMemoryObject> memoryObject, CCuint sizeInBytes)
+RefPtr<WebCLMemoryObject> WebCLMemoryObject::create(WebCLContext* context, RefPtr<ComputeMemoryObject> memoryObject, CCuint sizeInBytes)
 {
     return adoptRef(new WebCLMemoryObject(context, memoryObject, sizeInBytes));
 }
 
-WebCLMemoryObject::WebCLMemoryObject(WebCLContext* context, PassRefPtr<ComputeMemoryObject> memoryObject, CCuint sizeInBytes, WebCLMemoryObject* parentBuffer)
+WebCLMemoryObject::WebCLMemoryObject(WebCLContext* context, RefPtr<ComputeMemoryObject> memoryObject, CCuint sizeInBytes, WebCLMemoryObject* parentBuffer)
     : WebCLObjectImpl(memoryObject)
     , m_context(context)
     , m_parentMemObject(parentBuffer)

@@ -42,7 +42,7 @@ class WebCLPlatform;
 class WebCLDevice : public RefCounted<WebCLDevice>, public WebCLExtensionsAccessor<ComputeDevice*> {
 public:
     virtual ~WebCLDevice();
-    static PassRefPtr<WebCLDevice> create(RefPtr<ComputeDevice>, WebCLPlatform*);
+    static RefPtr<WebCLDevice> create(RefPtr<ComputeDevice>, WebCLPlatform*);
     WebCLGetInfo getInfo(CCenum, ExceptionObject&);
 
     // NOTE: Not to be confused with the 'platform'.

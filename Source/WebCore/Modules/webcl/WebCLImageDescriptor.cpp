@@ -37,13 +37,13 @@ WebCLImageDescriptor::~WebCLImageDescriptor()
 {
 }
 
-PassRefPtr<WebCLImageDescriptor> WebCLImageDescriptor::create(CCuint width, CCuint height, CCuint rowPitch, CCuint channelOrder, CCuint channelType)
+RefPtr<WebCLImageDescriptor> WebCLImageDescriptor::create(CCuint width, CCuint height, CCuint rowPitch, CCuint channelOrder, CCuint channelType)
 {
     CCImageFormat imageFormat = {channelOrder, channelType};
     return adoptRef(new WebCLImageDescriptor(width, height, rowPitch, imageFormat));
 }
 
-PassRefPtr<WebCLImageDescriptor> WebCLImageDescriptor::create(const CCImageFormat& imageFormat)
+RefPtr<WebCLImageDescriptor> WebCLImageDescriptor::create(const CCImageFormat& imageFormat)
 {
     return adoptRef(new WebCLImageDescriptor(0 /*width*/, 0 /*height*/, 0 /*rowPitch*/, imageFormat));
 }

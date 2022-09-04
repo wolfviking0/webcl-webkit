@@ -32,12 +32,12 @@
 
 namespace WebCore {
 
-PassRefPtr<ComputeEvent> ComputeEvent::create()
+RefPtr<ComputeEvent> ComputeEvent::create()
 {
     return adoptRef(new ComputeEvent);
 }
 
-PassRefPtr<ComputeEvent> ComputeEvent::create(ComputeContext* context, CCerror& error)
+RefPtr<ComputeEvent> ComputeEvent::create(ComputeContext* context, CCerror& error)
 {
     return adoptRef(new ComputeEvent(context, error));
 }

@@ -43,12 +43,12 @@ class WebCLCommandQueue;
 class WebCLEvent : public WebCLObjectImpl<ComputeEvent> {
 public:
     virtual ~WebCLEvent();
-    static PassRefPtr<WebCLEvent> create();
+    static RefPtr<WebCLEvent> create();
 
     virtual WebCLGetInfo getInfo(CCenum, ExceptionObject&);
     CCulong getProfilingInfo(CCenum, ExceptionObject&);
 
-    void setCallback(CCenum, PassRefPtr<WebCLCallback>, ExceptionObject&);
+    void setCallback(CCenum, RefPtr<WebCLCallback>, ExceptionObject&);
     void setAssociatedCommandQueue(WebCLCommandQueue* commandQueue);
 
     bool isUserEvent() const;
@@ -69,7 +69,7 @@ public:
     }
 
 protected:
-    WebCLEvent(PassRefPtr<ComputeEvent>);
+    WebCLEvent(RefPtr<ComputeEvent>);
 
 private:
     typedef Vector<std::pair<CCint, RefPtr<WebCLCallback> > > CallbackDataVector;

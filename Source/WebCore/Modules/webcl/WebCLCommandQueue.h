@@ -53,7 +53,7 @@ class WebCLCallback;
 class WebCLCommandQueue : public WebCLObjectImpl<ComputeCommandQueue> {
 public:
     ~WebCLCommandQueue();
-    static PassRefPtr<WebCLCommandQueue> create(WebCLContext*, CCenum queueProperties, WebCLDevice*, ExceptionObject&);
+    static RefPtr<WebCLCommandQueue> create(WebCLContext*, CCenum queueProperties, WebCLDevice*, ExceptionObject&);
     WebCLGetInfo getInfo(CCenum, ExceptionObject&);
 
     void enqueueWriteBuffer(WebCLBuffer*, CCbool blockingWrite, CCuint bufferOffset, CCuint numBytes, ArrayBufferView*,
@@ -120,7 +120,7 @@ public:
 
     void enqueueWaitForEvents(const Vector<RefPtr<WebCLEvent> >&, ExceptionObject&);
 
-    void finish(PassRefPtr<WebCLCallback>, ExceptionObject&);
+    void finish(RefPtr<WebCLCallback>, ExceptionObject&);
     void flush(ExceptionObject&);
 
     void enqueueBarrier(ExceptionObject&);
@@ -144,7 +144,7 @@ public:
     };
 
 private:
-    WebCLCommandQueue(WebCLContext*, PassRefPtr<ComputeCommandQueue>, WebCLDevice*);
+    WebCLCommandQueue(WebCLContext*, RefPtr<ComputeCommandQueue>, WebCLDevice*);
 
     void enqueueWriteBufferBase(WebCLBuffer*, CCbool blockingWrite, CCuint, CCuint, void* hostPtr, size_t hostPtrLength,
         const Vector<RefPtr<WebCLEvent> >&, WebCLEvent*, ExceptionObject&);
